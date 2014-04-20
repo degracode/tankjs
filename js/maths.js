@@ -35,3 +35,13 @@ Math.calculateRangeOverlap = function( min1, max1, min2, max2 )
 		return min2 - max1;
 	return 0;
 };
+
+Math.sign = function(value)
+{
+	if(value < 0)
+		return -1;
+	else if(value > 0)
+		return 1;
+	else
+		return 0;
+};

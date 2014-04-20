@@ -17,26 +17,26 @@ Game.initialise = function()
 	this.assets.shell = document.getElementById("shell");
 
 	this.entities = {};
-	this.entities.tank = new Tank(new Vec2(128, 128));
+	this.addEntity(new Tank(new Vec2(128, 128)), 'tank');
 
-	this.entities.shell = new Shell(new Vec2(0, 0), new Vec2(0.45, 0.45), this.assets.shell);
+	this.addEntity(new Shell(new Vec2(500, 100), new Vec2(1, 1), this.assets.shell), 'shell');
 
 	var blockNum = 0;
 	for(var x = 0; x < Game.width / 64; x++)
 	{
 		var blockX = (x * 64) + 32;
-		this.entities[blockNum] = new Prop(new Vec2(blockX, 32), this.assets.block);
+		this.addEntity(new Prop(new Vec2(blockX, 32), this.assets.block), blockNum);
 		++blockNum;
-		this.entities[blockNum] = new Prop(new Vec2(blockX, Game.height - 32), this.assets.block);
+		this.addEntity(new Prop(new Vec2(blockX, Game.height - 32), this.assets.block), blockNum);
 		++blockNum
 	}
 
 	for(var y = 1; y < (Game.height / 64) - 1; y++)
 	{
 		var blockY = (y * 64) + 32;
-		this.entities[blockNum] = new Prop(new Vec2(32, blockY), this.assets.block);
+		this.addEntity(new Prop(new Vec2(32, blockY), this.assets.block), blockNum);
 		++blockNum;
-		this.entities[blockNum] = new Prop(new Vec2(Game.width - 32, blockY), this.assets.block);
+		this.addEntity(new Prop(new Vec2(Game.width - 32, blockY), this.assets.block), blockNum);
 		++blockNum
 	}
 
@@ -62,6 +62,17 @@ Game.draw = function()
 		if(entity.draw)
 			entity.draw(this, this.context);
 	}
+};
+
+Game.addEntity = function(entity, id)
+{
+	this.entities[id] = entity;
+	entity.id = id;
+};
+
+Game.removeEntity = function(id)
+{
+	delete this.entities[id];
 };
 
 Game.fps = 60;
