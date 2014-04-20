@@ -10,7 +10,7 @@ Game.initialise = function()
 	this.key = new Key();
 	this.mouse = new Mouse(viewport);
 
-	this.assets = {}
+	this.assets = {};
 	this.assets.tank_body = document.getElementById("tank_body");
 	this.assets.tank_turret = document.getElementById("tank_turret");
 	this.assets.block = document.getElementById("block");
@@ -19,11 +19,11 @@ Game.initialise = function()
 	this.entities = {};
 	this.nextEntityId = 0;
 
-	this.addEntity(new Tank(new Vec2(128, 128)));
+	var playerTank = this.addEntity(new Tank(new Vec2(128, 128)));
+	playerTank.controlInterface = new ControlInterfacePlayer(playerTank);
 
 	this.addEntity(new Shell(new Vec2(500, 100), new Vec2(1, 1), this.assets.shell));
 
-	var blockNum = 0;
 	for(var x = 0; x < Game.width / 64; x++)
 	{
 		var blockX = (x * 64) + 32;
@@ -46,7 +46,7 @@ Game.update = function()
 	{
 		var entity = this.entities[entityId];
 		if(entity.update)
-			entity.update(this, this.context);
+			entity.update();
 	}
 };
 
@@ -58,7 +58,7 @@ Game.draw = function()
 	{
 		var entity = this.entities[entityId];
 		if(entity.draw)
-			entity.draw(this, this.context);
+			entity.draw(this.context);
 	}
 };
 
@@ -68,6 +68,9 @@ Game.addEntity = function(entity)
 	++this.nextEntityId;
 	this.entities[id] = entity;
 	entity.id = id;
+	entity.game = this;
+
+	return entity;
 };
 
 Game.removeEntity = function(id)
@@ -105,7 +108,7 @@ if(window.webkitRequestAnimationFrame)
 		{
 			cb();
 			webkitRequestAnimationFrame(_cb);
-		}
+		};
 		_cb();
 	};
 }
@@ -117,7 +120,7 @@ else if(window.mozRequestAnimationFrame)
 		{
 			cb();
 			mozRequestAnimationFrame(_cb);
-		}
+		};
 		_cb();
 	};
 }

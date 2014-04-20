@@ -11,14 +11,14 @@ Shell.constuctor = Shell;
 Shell.prototype.size = new Vec2(16, 16);
 
 Shell.prototype.update =
-	function( game )
+	function()
 	{
 		this.position.addv(this.direction);
 		this.updateBounds();
 
-		for(var entityId in game.entities)
+		for(var entityId in this.game.entities)
 		{
-			var entity = game.entities[entityId];
+			var entity = this.game.entities[entityId];
 			if(entity.bounds && entity != this)
 			{
 				var horzOverlap = Math.calculateRangeOverlap(this.bounds.left, this.bounds.right, entity.bounds.left, entity.bounds.right);
@@ -27,7 +27,7 @@ Shell.prototype.update =
 				{
 					if(entity instanceof Tank)
 					{
-						game.removeEntity(this.id);
+						this.game.removeEntity(this.id);
 						return;
 					}
 					else
@@ -48,7 +48,7 @@ Shell.prototype.update =
 
 						if(this.numBouncesRemaining<=0)
 						{
-							game.removeEntity(this.id);
+							this.game.removeEntity(this.id);
 							return;
 						}
 					}

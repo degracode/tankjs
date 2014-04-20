@@ -9,7 +9,7 @@ function Prop( pos, image )
 Prop.prototype.size = new Vec2(64, 64);
 
 Prop.prototype.draw =
-	function( game, canvas )
+	function( canvas )
 	{
 		canvas.save();
 		canvas.translate(this.position.x, this.position.y);

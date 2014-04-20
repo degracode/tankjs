@@ -7,7 +7,7 @@ function Vec2( x, y )
 Vec2.prototype.Clone = function()
 {
 	return new Vec2(this.x, this.y);
-}
+};
 
 Vec2.prototype.Addv = function( vec )
 {
@@ -56,7 +56,7 @@ Vec2.prototype.subs = function( scalar )
 Vec2.prototype.Negate = function()
 {
 	return this.Clone().negate();
-}
+};
 Vec2.prototype.negate = function()
 {
 	this.x = -this.x;
@@ -109,7 +109,7 @@ Vec2.prototype.scaleToLength = function(newLength)
 	return this;
 };
 
-Vec2.prototype.IsZero = function()
+Vec2.prototype.isZero = function()
 {
-	return this.x == 0 && this.y == 0;
+	return (this.x == 0 && this.y == 0);
 };

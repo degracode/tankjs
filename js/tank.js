@@ -9,20 +9,13 @@ function Tank( vecPos )
 }
 
 Tank.prototype.update =
-	function( game )
+	function()
 	{
-		var movementDirection = new Vec2(0, 0);
+		this.controlInterface.update(this.game);
 
-		if(game.key.isDown(game.key.UP) || game.key.isDown(game.key.W))
-			movementDirection.y += -1;
-		if(game.key.isDown(game.key.DOWN) || game.key.isDown(game.key.S))
-			movementDirection.y += 1;
-		if(game.key.isDown(game.key.LEFT) || game.key.isDown(game.key.A))
-			movementDirection.x += -1;
-		if(game.key.isDown(game.key.RIGHT) || game.key.isDown(game.key.D))
-			movementDirection.x += 1;
+		var movementDirection = this.controlInterface.getMovementDirection();
 
-		if(!movementDirection.IsZero())
+		if(!movementDirection.isZero())
 		{
 			movementDirection.normalise();
 
@@ -33,44 +26,42 @@ Tank.prototype.update =
 		this.position.addv(movementDirection);
 		this.updateBounds();
 
-		this.applyConstraints(game);
+		this.applyConstraints(this.game);
 		this.updateBounds();
 
-		var direction = game.mouse.position.Subv(this.position);
-		this.turretRotation = Math.atan2(direction.y, direction.x);
+		var turretDirection = this.controlInterface.getTurretDirection();
+		this.turretRotation = Math.atan2(turretDirection.y, turretDirection.x);
 
-		if(game.mouse.isDown(game.mouse.LEFT))
+		if(this.controlInterface.isTryingToFire())
 		{
-			game.mouse.debounce(game.mouse.LEFT);
-
-			var turretEnd = direction.ScaleToLength(32).addv(this.position);
-			game.addEntity(new Shell(turretEnd, direction.Normalise(), game.assets.shell));
+			var turretEnd = turretDirection.ScaleToLength(32).addv(this.position);
+			this.game.addEntity(new Shell(turretEnd, turretDirection, this.game.assets.shell));
 		}
-	}
+	};
 
 Tank.prototype.draw =
-	function( game, canvas )
+	function( canvas )
 	{
 		canvas.save();
 		canvas.translate(this.position.x, this.position.y);
 
 		canvas.save();
 		canvas.rotate(this.rotation);
-		canvas.drawImage(game.assets.tank_body, -this.size.x / 2, -this.size.y / 2, this.size.x, this.size.y);
+		canvas.drawImage(this.game.assets.tank_body, -this.size.x / 2, -this.size.y / 2, this.size.x, this.size.y);
 		canvas.restore();
 
 		canvas.rotate(this.turretRotation);
-		canvas.drawImage(game.assets.tank_turret, -this.size.x / 2, -this.size.y / 2, this.size.x, this.size.y);
+		canvas.drawImage(this.game.assets.tank_turret, -this.size.x / 2, -this.size.y / 2, this.size.x, this.size.y);
 
 		canvas.restore();
-	}
+	};
 
 Tank.prototype.applyConstraints =
-	function( game )
+	function()
 	{
-		for(var entityId in game.entities)
+		for(var entityId in this.game.entities)
 		{
-			var entity = game.entities[entityId];
+			var entity = this.game.entities[entityId];
 			if(entity.bounds && entity != this)
 			{
 				var horzOverlap = Math.calculateRangeOverlap(this.bounds.left, this.bounds.right, entity.bounds.left, entity.bounds.right);
