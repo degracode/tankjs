@@ -2,6 +2,7 @@ function Shell( pos, dir, image )
 {
 	Prop.call(this, pos, image);
 
+	this.numBouncesRemaining = 3;
 	this.direction = dir.Clone();
 }
 
@@ -36,11 +37,19 @@ Shell.prototype.update =
 						if(horzMagnitude!=0 && horzMagnitude < vertMagnitude && Math.sign(-horzOverlap)==Math.sign(this.direction.x))
 						{
 							this.direction.x *= -1;
+							--this.numBouncesRemaining;
 						}
 
 						if(vertMagnitude!=0 && vertMagnitude < horzMagnitude && Math.sign(-vertOverlap)==Math.sign(this.direction.y))
 						{
 							this.direction.y *= -1;
+							--this.numBouncesRemaining;
+						}
+
+						if(this.numBouncesRemaining<=0)
+						{
+							game.removeEntity(this.id);
+							return;
 						}
 					}
 				}
