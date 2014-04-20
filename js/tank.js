@@ -6,10 +6,10 @@ function Tank( vecPos )
 	this.size = new Vec2(32, 32);
 
 	this.leftTrackEffect = new TrailEffect();
-	this.leftTrackEffect.numSegments = 500;
+	this.leftTrackEffect.numSegments = 0;
 
 	this.rightTrackEffect = new TrailEffect();
-	this.rightTrackEffect.numSegments = 500;
+	this.rightTrackEffect.numSegments = 0;
 
 	this.updateBounds();
 }
