@@ -13,13 +13,13 @@ Tank.prototype.update =
 	{
 		var movementDirection = new Vec2(0, 0);
 
-		if(game.key.isDown(Game.key.UP) || game.key.isDown(Game.key.W))
+		if(game.key.isDown(game.key.UP) || game.key.isDown(game.key.W))
 			movementDirection.y += -1;
-		if(game.key.isDown(Game.key.DOWN) || game.key.isDown(Game.key.S))
+		if(game.key.isDown(game.key.DOWN) || game.key.isDown(game.key.S))
 			movementDirection.y += 1;
-		if(game.key.isDown(Game.key.LEFT) || game.key.isDown(Game.key.A))
+		if(game.key.isDown(game.key.LEFT) || game.key.isDown(game.key.A))
 			movementDirection.x += -1;
-		if(game.key.isDown(Game.key.RIGHT) || game.key.isDown(Game.key.D))
+		if(game.key.isDown(game.key.RIGHT) || game.key.isDown(game.key.D))
 			movementDirection.x += 1;
 
 		if(!movementDirection.IsZero())
@@ -38,6 +38,14 @@ Tank.prototype.update =
 
 		var direction = game.mouse.position.Subv(this.position);
 		this.turretRotation = Math.atan2(direction.y, direction.x);
+
+		if(game.mouse.isDown(game.mouse.LEFT))
+		{
+			game.mouse.debounce(game.mouse.LEFT);
+
+			var turretEnd = direction.ScaleToLength(32).addv(this.position);
+			game.addEntity(new Shell(turretEnd, direction.Normalise(), game.assets.shell));
+		}
 	}
 
 Tank.prototype.draw =
