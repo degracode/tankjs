@@ -17,27 +17,25 @@ Game.initialise = function()
 	this.assets.shell = document.getElementById("shell");
 
 	this.entities = {};
-	this.addEntity(new Tank(new Vec2(128, 128)), 'tank');
+	this.nextEntityId = 0;
 
-	this.addEntity(new Shell(new Vec2(500, 100), new Vec2(1, 1), this.assets.shell), 'shell');
+	this.addEntity(new Tank(new Vec2(128, 128)));
+
+	this.addEntity(new Shell(new Vec2(500, 100), new Vec2(1, 1), this.assets.shell));
 
 	var blockNum = 0;
 	for(var x = 0; x < Game.width / 64; x++)
 	{
 		var blockX = (x * 64) + 32;
-		this.addEntity(new Prop(new Vec2(blockX, 32), this.assets.block), blockNum);
-		++blockNum;
-		this.addEntity(new Prop(new Vec2(blockX, Game.height - 32), this.assets.block), blockNum);
-		++blockNum
+		this.addEntity(new Prop(new Vec2(blockX, 32), this.assets.block));
+		this.addEntity(new Prop(new Vec2(blockX, Game.height - 32), this.assets.block));
 	}
 
 	for(var y = 1; y < (Game.height / 64) - 1; y++)
 	{
 		var blockY = (y * 64) + 32;
-		this.addEntity(new Prop(new Vec2(32, blockY), this.assets.block), blockNum);
-		++blockNum;
-		this.addEntity(new Prop(new Vec2(Game.width - 32, blockY), this.assets.block), blockNum);
-		++blockNum
+		this.addEntity(new Prop(new Vec2(32, blockY), this.assets.block));
+		this.addEntity(new Prop(new Vec2(Game.width - 32, blockY), this.assets.block));
 	}
 
 };
@@ -64,8 +62,10 @@ Game.draw = function()
 	}
 };
 
-Game.addEntity = function(entity, id)
+Game.addEntity = function(entity)
 {
+	var id = this.nextEntityId;
+	++this.nextEntityId;
 	this.entities[id] = entity;
 	entity.id = id;
 };
