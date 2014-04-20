@@ -77,7 +77,7 @@ Vec2.prototype.mulv = function( vec )
 
 Vec2.prototype.Muls = function( scalar )
 {
-	return this.Clone().muls(vec);
+	return this.Clone().muls(scalar);
 };
 Vec2.prototype.muls = function( scalar )
 {
@@ -88,12 +88,24 @@ Vec2.prototype.muls = function( scalar )
 
 Vec2.prototype.Normalise = function()
 {
-	return this.Clone().normalise(vec);
+	return this.Clone().normalise();
 };
 Vec2.prototype.normalise = function()
 {
 	var length = Math.sqrt((this.x * this.x) + (this.y * this.y));
 	this.muls(1.0 / length);
+	return this;
+};
+
+Vec2.prototype.ScaleToLength = function(length)
+{
+	return this.Clone().scaleToLength(length);
+};
+
+Vec2.prototype.scaleToLength = function(newLength)
+{
+	var length = Math.sqrt((this.x * this.x) + (this.y * this.y));
+	this.muls(newLength / length);
 	return this;
 };
 
