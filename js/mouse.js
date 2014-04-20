@@ -33,7 +33,7 @@ function Mouse( context )
 	context.addEventListener('mousemove', this.onMouseMove, false);
 }
 
-Mouse.prototype.LEFT = 1;
+Mouse.prototype.LEFT = 0;
 Mouse.prototype.RIGHT = 2;
 
 Mouse.prototype.isDown =
