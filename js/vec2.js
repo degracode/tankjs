@@ -113,3 +113,8 @@ Vec2.prototype.isZero = function()
 {
 	return (this.x == 0 && this.y == 0);
 };
+
+Vec2.prototype.equals = function(rhs)
+{
+	return this.x==rhs.x && this.y==rhs.y;
+};
