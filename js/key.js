@@ -1,10 +1,16 @@
 function Key()
 {
 	this._pressed = {};
-	
+
 	var scope = this;
-	window.addEventListener('keyup', function(event) { delete scope._pressed[event.keyCode]; }, false);
-	window.addEventListener('keydown', function(event) { scope._pressed[event.keyCode] = true; }, false);
+	window.addEventListener('keyup', function( event )
+	{
+		delete scope._pressed[event.keyCode];
+	}, false);
+	window.addEventListener('keydown', function( event )
+	{
+		scope._pressed[event.keyCode] = true;
+	}, false);
 }
 
 Key.prototype.LEFT = 37;
@@ -17,7 +23,7 @@ Key.prototype.S = 83;
 Key.prototype.D = 68;
 
 Key.prototype.isDown =
-	function(keyCode)
+	function( keyCode )
 	{
 		return this._pressed[keyCode];
 	};
