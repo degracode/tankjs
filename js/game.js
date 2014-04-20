@@ -129,5 +129,13 @@ else
 	};
 }
 
+function cancelDefaultEventBehaviour(event)
+{
+	var e = event ? event: window.event;
+	if(e.preventDefault) e.preventDefault();
+	e.returnValue = false;
+	return false;
+}
+
 Game.initialise();
 window.onEachFrame(Game.run());

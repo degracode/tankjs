@@ -9,6 +9,8 @@ function Mouse( context )
 	this.onMouseDown = function( event )
 	{
 		scope._pressed[event.button] = true;
+
+		return cancelDefaultEventBehaviour(event);
 	};
 
 	this.onMouseUp = function( event )
@@ -20,12 +22,16 @@ function Mouse( context )
 		catch(err)
 		{
 		}
+
+		return cancelDefaultEventBehaviour(event);
 	};
 
 	this.onMouseMove = function( event )
 	{
 		var rect = scope.context.getBoundingClientRect();
 		scope.position = new Vec2(event.x - rect.left, event.y - rect.top);
+
+		return cancelDefaultEventBehaviour(event);
 	};
 
 	context.addEventListener('mousedown', this.onMouseDown, false);
