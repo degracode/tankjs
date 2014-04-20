@@ -30,6 +30,11 @@ Shell.prototype.update =
 						this.game.removeEntity(this.id);
 						return;
 					}
+					else if(entity instanceof Shell)
+					{
+						this.game.removeEntity(this.id);
+						this.game.removeEntity(entity.id);
+					}
 					else
 					{
 						var horzMagnitude = Math.abs(horzOverlap);

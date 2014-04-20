@@ -22,8 +22,6 @@ Game.initialise = function()
 	var playerTank = this.addEntity(new Tank(new Vec2(128, 128)));
 	playerTank.controlInterface = new ControlInterfacePlayer(playerTank);
 
-	this.addEntity(new Shell(new Vec2(500, 100), new Vec2(1, 1), this.assets.shell));
-
 	for(var x = 0; x < Game.width / 64; x++)
 	{
 		var blockX = (x * 64) + 32;
