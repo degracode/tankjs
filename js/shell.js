@@ -1,6 +1,6 @@
-function Shell( pos, dir, image, game )
+function Shell( pos, dir, image, screen )
 {
-	this.game = game;
+	this.screen = screen;
 
 	Prop.call(this, pos, image);
 
@@ -18,9 +18,9 @@ Shell.prototype.update =
 		this.position.addv(this.direction);
 		this.updateBounds();
 
-		for(var entityId in this.game.entities)
+		for(var entityId in this.screen.entities)
 		{
-			var entity = this.game.entities[entityId];
+			var entity = this.screen.entities[entityId];
 			if(entity.bounds && entity != this)
 			{
 				var horzOverlap = Math.calculateRangeOverlap(this.bounds.left, this.bounds.right, entity.bounds.left, entity.bounds.right);
@@ -63,5 +63,5 @@ Shell.prototype.update =
 Shell.prototype.destroy =
 	function()
 	{
-		this.game.removeEntity(this.id);
+		this.screen.removeEntity(this.id);
 	};

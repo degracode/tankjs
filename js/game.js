@@ -10,8 +10,6 @@ Game.initialise = function()
 	this.key = new Key();
 	this.mouse = new Mouse(viewport);
 
-	this.trackEffects = [];
-
 	this.assets = {};
 	this.assets.tank_body = document.getElementById("tank_body");
 	this.assets.enemy_tank_body = document.getElementById("enemy_tank_body");
@@ -19,75 +17,19 @@ Game.initialise = function()
 	this.assets.block = document.getElementById("block");
 	this.assets.shell = document.getElementById("shell");
 
-	this.entities = {};
-	this.nextEntityId = 0;
-
-	this.playerTeam = new Team("Player");
-	this.enemyTeam = new Team("Enemy");
-
-	var playerTank = this.addEntity(new Tank(new Vec2(128, 128), this, this.assets.tank_body, this.assets.tank_turret));
-	playerTank.controlInterface = new ControlInterfacePlayer(playerTank);
-	this.playerTeam.addMember(playerTank);
-
-	var aiTank = this.addEntity(new Tank(new Vec2(400, 300), this, this.assets.enemy_tank_body, this.assets.tank_turret));
-	aiTank.controlInterface = new ControlInterfaceAI(aiTank);
-	this.enemyTeam.addMember(aiTank);
-
-	for(var x = 0; x < Game.width / 64; x++)
-	{
-		var blockX = (x * 64) + 32;
-		this.addEntity(new Prop(new Vec2(blockX, 32), this.assets.block));
-		this.addEntity(new Prop(new Vec2(blockX, Game.height - 32), this.assets.block));
-	}
-
-	for(var y = 1; y < (Game.height / 64) - 1; y++)
-	{
-		var blockY = (y * 64) + 32;
-		this.addEntity(new Prop(new Vec2(32, blockY), this.assets.block));
-		this.addEntity(new Prop(new Vec2(Game.width - 32, blockY), this.assets.block));
-	}
+	this.worldScreen = new WorldScreen(this);
 };
 
 Game.update = function()
 {
-	for(var entityId in this.entities)
-	{
-		var entity = this.entities[entityId];
-		if(entity.update)
-			entity.update();
-	}
+	this.worldScreen.update();
 };
 
 Game.draw = function()
 {
 	this.context.clearRect(0, 0, Game.width, Game.height);
 
-	for(var track in this.trackEffects)
-	{
-		this.trackEffects[track].draw(this.context);
-	}
-
-	for(var entityId in this.entities)
-	{
-		var entity = this.entities[entityId];
-		if(entity.draw)
-			entity.draw(this.context);
-	}
-};
-
-Game.addEntity = function(entity)
-{
-	var id = this.nextEntityId;
-	++this.nextEntityId;
-	this.entities[id] = entity;
-	entity.id = id;
-
-	return entity;
-};
-
-Game.removeEntity = function(id)
-{
-	delete this.entities[id];
+	this.worldScreen.draw();
 };
 
 Game.fps = 60;

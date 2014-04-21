@@ -1,11 +1,11 @@
 function ControlInterfacePlayer( entity )
 {
 	this.entity = entity;
-	this.game = entity.game;
+	this.screen = entity.screen;
 }
 
 ControlInterfacePlayer.prototype.update =
-	function( game )
+	function()
 	{
 
 	};
@@ -15,7 +15,7 @@ ControlInterfacePlayer.prototype.getMovementDirection =
 	{
 		var movementDirection = new Vec2(0, 0);
 
-		var key = this.game.key;
+		var key = this.screen.game.key;
 		if(key.isDown(key.UP) || key.isDown(key.W))
 			movementDirection.y += -1;
 		if(key.isDown(key.DOWN) || key.isDown(key.S))
@@ -31,18 +31,18 @@ ControlInterfacePlayer.prototype.getMovementDirection =
 ControlInterfacePlayer.prototype.getTurretDirection =
 	function()
 	{
-		var direction = this.game.mouse.position.Subv(this.entity.position);
+		var direction = this.screen.game.mouse.position.Subv(this.entity.position);
 		return direction.normalise();
 	};
 
 ControlInterfacePlayer.prototype.isTryingToFire =
 	function()
 	{
-		var mouse = this.game.mouse;
+		var mouse = this.screen.game.mouse;
 		var isPressing = mouse.isDown(mouse.LEFT);
 		if(isPressing)
 		{
-			this.game.mouse.debounce(mouse.LEFT);
+			mouse.debounce(mouse.LEFT);
 			return true;
 		}
 		return false;

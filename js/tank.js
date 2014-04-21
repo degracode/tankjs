@@ -1,6 +1,6 @@
-function Tank( vecPos, game, bodyGraphic, turretGraphic )
+function Tank( vecPos, screen, bodyGraphic, turretGraphic )
 {
-	this.game = game;
+	this.screen = screen;
 
 	this.position = vecPos.Clone();
 	this.rotation = 0;
@@ -9,11 +9,11 @@ function Tank( vecPos, game, bodyGraphic, turretGraphic )
 
 	this.leftTrackEffect = new TrailEffect();
 	this.leftTrackEffect.numSegments = 0;
-	this.game.trackEffects.push(this.leftTrackEffect);
+	this.screen.trackEffects.push(this.leftTrackEffect);
 
 	this.rightTrackEffect = new TrailEffect();
 	this.rightTrackEffect.numSegments = 0;
-	this.game.trackEffects.push(this.rightTrackEffect);
+	this.screen.trackEffects.push(this.rightTrackEffect);
 
 	this.bodyGraphic = bodyGraphic;
 	this.turretGraphic = turretGraphic;
@@ -24,7 +24,7 @@ function Tank( vecPos, game, bodyGraphic, turretGraphic )
 Tank.prototype.update =
 	function()
 	{
-		this.controlInterface.update(this.game);
+		this.controlInterface.update();
 
 		var movementDirection = this.controlInterface.getMovementDirection();
 
@@ -39,7 +39,7 @@ Tank.prototype.update =
 		this.position.addv(movementDirection);
 		this.updateBounds();
 
-		this.applyConstraints(this.game);
+		this.applyConstraints();
 		this.updateBounds();
 
 		var turretDirection = this.controlInterface.getTurretDirection();
@@ -48,7 +48,7 @@ Tank.prototype.update =
 		if(this.controlInterface.isTryingToFire())
 		{
 			var turretEnd = turretDirection.ScaleToLength(32).addv(this.position);
-			this.game.addEntity(new Shell(turretEnd, turretDirection, this.game.assets.shell, this.game));
+			this.screen.addEntity(new Shell(turretEnd, turretDirection, this.screen.game.assets.shell, this.screen));
 		}
 
 		var forwardDirection = (new Vec2(Math.cos(this.rotation), Math.sin(this.rotation)));
@@ -79,9 +79,9 @@ Tank.prototype.draw =
 Tank.prototype.applyConstraints =
 	function()
 	{
-		for(var entityId in this.game.entities)
+		for(var entityId in this.screen.entities)
 		{
-			var entity = this.game.entities[entityId];
+			var entity = this.screen.entities[entityId];
 			if(entity.bounds && entity != this)
 			{
 				var horzOverlap = Math.calculateRangeOverlap(this.bounds.left, this.bounds.right, entity.bounds.left, entity.bounds.right);
@@ -113,7 +113,7 @@ Tank.prototype.destroy =
 	{
 		if(this.team)
 			this.team.removeMember(this);
-		this.game.removeEntity(this.id);
+		this.screen.removeEntity(this.id);
 	};
 
 Tank.prototype.team = null;

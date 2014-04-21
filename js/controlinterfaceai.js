@@ -4,11 +4,11 @@
 function ControlInterfaceAI( entity )
 {
 	this.entity = entity;
-	this.game = entity.game;
+	this.screen = entity.screen;
 }
 
 ControlInterfaceAI.prototype.update =
-	function( game )
+	function()
 	{
 
 	};
