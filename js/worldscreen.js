@@ -44,6 +44,8 @@ WorldScreen.prototype.update = function()
 		if(entity.update)
 			entity.update();
 	}
+
+	return false;
 };
 
 WorldScreen.prototype.draw = function()
@@ -59,6 +61,8 @@ WorldScreen.prototype.draw = function()
 		if(entity.draw)
 			entity.draw(this.game.context);
 	}
+
+	return false;
 };
 
 WorldScreen.prototype.addEntity = function(entity)

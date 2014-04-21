@@ -17,19 +17,31 @@ Game.initialise = function()
 	this.assets.block = document.getElementById("block");
 	this.assets.shell = document.getElementById("shell");
 
-	this.worldScreen = new WorldScreen(this);
+	this.screenStack = [];
+	this.screenStack.push(new WorldScreen(this));
+	this.screenStack.push(new MainMenuScreen(this));
 };
 
 Game.update = function()
 {
-	this.worldScreen.update();
+	for(var screenIndex in this.screenStack)
+	{
+		var blockUpdate = this.screenStack[this.screenStack.length-screenIndex-1].update();
+		if(blockUpdate)
+			break;
+	}
 };
 
 Game.draw = function()
 {
 	this.context.clearRect(0, 0, Game.width, Game.height);
 
-	this.worldScreen.draw();
+	for(var screenIndex in this.screenStack)
+	{
+		var blockDraw = this.screenStack[screenIndex].draw();
+		if(blockDraw)
+			break;
+	}
 };
 
 Game.fps = 60;
