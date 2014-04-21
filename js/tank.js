@@ -1,4 +1,4 @@
-function Tank( vecPos, game )
+function Tank( vecPos, game, bodyGraphic, turretGraphic )
 {
 	this.game = game;
 
@@ -14,6 +14,9 @@ function Tank( vecPos, game )
 	this.rightTrackEffect = new TrailEffect();
 	this.rightTrackEffect.numSegments = 0;
 	this.game.trackEffects.push(this.rightTrackEffect);
+
+	this.bodyGraphic = bodyGraphic;
+	this.turretGraphic = turretGraphic;
 
 	this.updateBounds();
 }
@@ -64,11 +67,11 @@ Tank.prototype.draw =
 
 		canvas.save();
 		canvas.rotate(this.rotation);
-		canvas.drawImage(this.game.assets.tank_body, -this.size.x / 2, -this.size.y / 2, this.size.x, this.size.y);
+		canvas.drawImage(this.bodyGraphic, -this.size.x / 2, -this.size.y / 2, this.size.x, this.size.y);
 		canvas.restore();
 
 		canvas.rotate(this.turretRotation);
-		canvas.drawImage(this.game.assets.tank_turret, -this.size.x / 2, -this.size.y / 2, this.size.x, this.size.y);
+		canvas.drawImage(this.turretGraphic, -this.size.x / 2, -this.size.y / 2, this.size.x, this.size.y);
 
 		canvas.restore();
 	};

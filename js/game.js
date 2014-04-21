@@ -14,6 +14,7 @@ Game.initialise = function()
 
 	this.assets = {};
 	this.assets.tank_body = document.getElementById("tank_body");
+	this.assets.enemy_tank_body = document.getElementById("enemy_tank_body");
 	this.assets.tank_turret = document.getElementById("tank_turret");
 	this.assets.block = document.getElementById("block");
 	this.assets.shell = document.getElementById("shell");
@@ -24,11 +25,11 @@ Game.initialise = function()
 	this.playerTeam = new Team("Player");
 	this.enemyTeam = new Team("Enemy");
 
-	var playerTank = this.addEntity(new Tank(new Vec2(128, 128), this));
+	var playerTank = this.addEntity(new Tank(new Vec2(128, 128), this, this.assets.tank_body, this.assets.tank_turret));
 	playerTank.controlInterface = new ControlInterfacePlayer(playerTank);
 	this.playerTeam.addMember(playerTank);
 
-	var aiTank = this.addEntity(new Tank(new Vec2(400, 300), this));
+	var aiTank = this.addEntity(new Tank(new Vec2(400, 300), this, this.assets.enemy_tank_body, this.assets.tank_turret));
 	aiTank.controlInterface = new ControlInterfaceAI(aiTank);
 	this.enemyTeam.addMember(aiTank);
 
