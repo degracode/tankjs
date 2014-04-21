@@ -34,9 +34,9 @@ function Mouse( context )
 		return cancelDefaultEventBehaviour(event);
 	};
 
-	context.addEventListener('mousedown', this.onMouseDown, false);
-	context.addEventListener('mouseup', this.onMouseUp, false);
-	context.addEventListener('mousemove', this.onMouseMove, false);
+	window.addEventListener('mousedown', this.onMouseDown, false);
+	window.addEventListener('mouseup', this.onMouseUp, false);
+	window.addEventListener('mousemove', this.onMouseMove, false);
 }
 
 Mouse.prototype.LEFT = 0;
