@@ -1,5 +1,7 @@
-function Tank( vecPos )
+function Tank( vecPos, game )
 {
+	this.game = game;
+
 	this.position = vecPos.Clone();
 	this.rotation = 0;
 	this.turretRotation = 0;
@@ -7,9 +9,11 @@ function Tank( vecPos )
 
 	this.leftTrackEffect = new TrailEffect();
 	this.leftTrackEffect.numSegments = 0;
+	this.game.trackEffects.push(this.leftTrackEffect);
 
 	this.rightTrackEffect = new TrailEffect();
 	this.rightTrackEffect.numSegments = 0;
+	this.game.trackEffects.push(this.rightTrackEffect);
 
 	this.updateBounds();
 }
@@ -41,7 +45,7 @@ Tank.prototype.update =
 		if(this.controlInterface.isTryingToFire())
 		{
 			var turretEnd = turretDirection.ScaleToLength(32).addv(this.position);
-			this.game.addEntity(new Shell(turretEnd, turretDirection, this.game.assets.shell));
+			this.game.addEntity(new Shell(turretEnd, turretDirection, this.game.assets.shell, this.game));
 		}
 
 		var forwardDirection = (new Vec2(Math.cos(this.rotation), Math.sin(this.rotation)));
@@ -56,10 +60,6 @@ Tank.prototype.draw =
 	function( canvas )
 	{
 		canvas.save();
-
-		this.leftTrackEffect.draw(canvas);
-		this.rightTrackEffect.draw(canvas);
-
 		canvas.translate(this.position.x, this.position.y);
 
 		canvas.save();

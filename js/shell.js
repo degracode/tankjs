@@ -1,5 +1,7 @@
-function Shell( pos, dir, image )
+function Shell( pos, dir, image, game )
 {
+	this.game = game;
+
 	Prop.call(this, pos, image);
 
 	this.numBouncesRemaining = 3;

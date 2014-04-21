@@ -10,6 +10,8 @@ Game.initialise = function()
 	this.key = new Key();
 	this.mouse = new Mouse(viewport);
 
+	this.trackEffects = [];
+
 	this.assets = {};
 	this.assets.tank_body = document.getElementById("tank_body");
 	this.assets.tank_turret = document.getElementById("tank_turret");
@@ -22,11 +24,11 @@ Game.initialise = function()
 	this.playerTeam = new Team("Player");
 	this.enemyTeam = new Team("Enemy");
 
-	var playerTank = this.addEntity(new Tank(new Vec2(128, 128)));
+	var playerTank = this.addEntity(new Tank(new Vec2(128, 128), this));
 	playerTank.controlInterface = new ControlInterfacePlayer(playerTank);
 	this.playerTeam.addMember(playerTank);
 
-	var aiTank = this.addEntity(new Tank(new Vec2(400, 300)));
+	var aiTank = this.addEntity(new Tank(new Vec2(400, 300), this));
 	aiTank.controlInterface = new ControlInterfaceAI(aiTank);
 	this.enemyTeam.addMember(aiTank);
 
@@ -59,6 +61,11 @@ Game.draw = function()
 {
 	this.context.clearRect(0, 0, Game.width, Game.height);
 
+	for(var track in this.trackEffects)
+	{
+		this.trackEffects[track].draw(this.context);
+	}
+
 	for(var entityId in this.entities)
 	{
 		var entity = this.entities[entityId];
@@ -73,7 +80,6 @@ Game.addEntity = function(entity)
 	++this.nextEntityId;
 	this.entities[id] = entity;
 	entity.id = id;
-	entity.game = this;
 
 	return entity;
 };
