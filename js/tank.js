@@ -104,3 +104,5 @@ Tank.prototype.updateBounds =
 		this.bounds.top = this.position.y - (this.size.y / 2);
 		this.bounds.bottom = this.position.y + (this.size.y / 2);
 	};
+
+Tank.prototype.team = null;

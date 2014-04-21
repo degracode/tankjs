@@ -19,8 +19,16 @@ Game.initialise = function()
 	this.entities = {};
 	this.nextEntityId = 0;
 
+	this.playerTeam = new Team("Player");
+	this.enemyTeam = new Team("Enemy");
+
 	var playerTank = this.addEntity(new Tank(new Vec2(128, 128)));
 	playerTank.controlInterface = new ControlInterfacePlayer(playerTank);
+	this.playerTeam.addMember(playerTank);
+
+	var aiTank = this.addEntity(new Tank(new Vec2(400, 300)));
+	aiTank.controlInterface = new ControlInterfaceAI(aiTank);
+	this.enemyTeam.addMember(aiTank);
 
 	for(var x = 0; x < Game.width / 64; x++)
 	{
@@ -35,7 +43,6 @@ Game.initialise = function()
 		this.addEntity(new Prop(new Vec2(32, blockY), this.assets.block));
 		this.addEntity(new Prop(new Vec2(Game.width - 32, blockY), this.assets.block));
 	}
-
 };
 
 Game.update = function()
