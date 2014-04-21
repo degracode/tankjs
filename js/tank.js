@@ -105,4 +105,12 @@ Tank.prototype.updateBounds =
 		this.bounds.bottom = this.position.y + (this.size.y / 2);
 	};
 
+Tank.prototype.destroy =
+	function()
+	{
+		if(this.team)
+			this.team.removeMember(this);
+		this.game.removeEntity(this.id);
+	};
+
 Tank.prototype.team = null;

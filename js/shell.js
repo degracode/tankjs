@@ -25,15 +25,11 @@ Shell.prototype.update =
 				var vertOverlap = Math.calculateRangeOverlap(this.bounds.top, this.bounds.bottom, entity.bounds.top, entity.bounds.bottom);
 				if(horzOverlap != 0 && vertOverlap != 0)
 				{
-					if(entity instanceof Tank)
+					if(entity instanceof Tank || entity instanceof Shell)
 					{
-						this.game.removeEntity(this.id);
+						this.destroy();
+						entity.destroy();
 						return;
-					}
-					else if(entity instanceof Shell)
-					{
-						this.game.removeEntity(this.id);
-						this.game.removeEntity(entity.id);
 					}
 					else
 					{
@@ -53,7 +49,7 @@ Shell.prototype.update =
 
 						if(this.numBouncesRemaining<=0)
 						{
-							this.game.removeEntity(this.id);
+							this.destroy();
 							return;
 						}
 					}
@@ -62,3 +58,8 @@ Shell.prototype.update =
 		}
 	};
 
+Shell.prototype.destroy =
+	function()
+	{
+		this.game.removeEntity(this.id);
+	};
