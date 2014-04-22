@@ -84,14 +84,10 @@ Tank.prototype.applyConstraints =
 			var entity = this.screen.entities[entityId];
 			if(entity.bounds && entity != this)
 			{
-				var horzOverlap = Math.calculateRangeOverlap(this.bounds.left, this.bounds.right, entity.bounds.left, entity.bounds.right);
-				var vertOverlap = Math.calculateRangeOverlap(this.bounds.top, this.bounds.bottom, entity.bounds.top, entity.bounds.bottom);
-				if(horzOverlap != 0 && vertOverlap != 0)
+				var contact = this.bounds.testCollision(entity.bounds);
+				if(contact.hit)
 				{
-					if(Math.abs(horzOverlap) < Math.abs(vertOverlap))
-						this.position.x += horzOverlap;
-					else
-						this.position.y += vertOverlap;
+					this.position.addv(contact.penetration);
 					this.updateBounds();
 				}
 			}
@@ -101,11 +97,7 @@ Tank.prototype.applyConstraints =
 Tank.prototype.updateBounds =
 	function()
 	{
-		this.bounds = {};
-		this.bounds.left = this.position.x - (this.size.x / 2);
-		this.bounds.right = this.position.x + (this.size.x / 2);
-		this.bounds.top = this.position.y - (this.size.y / 2);
-		this.bounds.bottom = this.position.y + (this.size.y / 2);
+		this.bounds = new AABB(this.position, this.size, 0);
 	};
 
 Tank.prototype.destroy =

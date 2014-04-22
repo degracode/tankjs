@@ -21,9 +21,5 @@ Prop.prototype.draw =
 Prop.prototype.updateBounds =
 	function()
 	{
-		this.bounds = {};
-		this.bounds.left = this.position.x - (this.size.x / 2);
-		this.bounds.right = this.position.x + (this.size.x / 2);
-		this.bounds.top = this.position.y - (this.size.y / 2);
-		this.bounds.bottom = this.position.y + (this.size.y / 2);
+		this.bounds = new AABB(this.position, this.size);
 	};
