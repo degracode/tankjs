@@ -4,20 +4,30 @@
 function MainMenuScreen(game)
 {
 	this.game = game;
+
+	$("#main-menu").toggleClass("hidden", false);
+	$("#new-game").on('click', null, this, function(eventObject){eventObject.data.onNewGame();});
 }
 
 MainMenuScreen.prototype.update = function()
 {
-	var mouse = this.game.mouse;
-	if(mouse.isDown(mouse.LEFT))
-	{
-		mouse.debounce(mouse.LEFT);
-		this.game.screenStack.splice(this.game.screenStack.indexOf(this), 1);
-	}
 	return true;
 };
 
 MainMenuScreen.prototype.draw = function()
 {
 	return false;
+};
+
+MainMenuScreen.prototype.deactivatePage = function()
+{
+	$("#new-game").off('click');
+	this.game.screenStack.splice(this.game.screenStack.indexOf(this), 1);
+
+	$("#main-menu").toggleClass("hidden", true);
+};
+
+MainMenuScreen.prototype.onNewGame = function()
+{
+	this.deactivatePage();
 };
