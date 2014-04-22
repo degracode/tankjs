@@ -65,6 +65,11 @@ WorldScreen.prototype.draw = function()
 	return false;
 };
 
+WorldScreen.prototype.deactivate = function()
+{
+	this.game.worldScreen = null;
+};
+
 WorldScreen.prototype.addEntity = function(entity)
 {
 	var id = this.nextEntityId;

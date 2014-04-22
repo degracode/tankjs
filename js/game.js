@@ -17,18 +17,20 @@ Game.initialise = function()
 	this.assets.block = document.getElementById("block");
 	this.assets.shell = document.getElementById("shell");
 
-	this.screenStack = [];
-	this.screenStack.push(new WorldScreen(this));
-	this.screenStack.push(new MainMenuScreen(this));
+	this.worldScreen = new WorldScreen(this);
+	this.menuScreen = new MainMenuScreen(this);
 };
 
 Game.update = function()
 {
-	for(var screenIndex in this.screenStack)
+	var blockWorldUpdate = this.menuScreen ? this.menuScreen.update(): false;
+
+	if(!blockWorldUpdate && this.worldScreen)
 	{
-		var blockUpdate = this.screenStack[this.screenStack.length-screenIndex-1].update();
-		if(blockUpdate)
-			break;
+		this.worldScreen.update();
+
+		if(this.worldScreen.playerTeam.getNumAliveMembers() == 0)
+			this.onGameOver();
 	}
 };
 
@@ -36,12 +38,35 @@ Game.draw = function()
 {
 	this.context.clearRect(0, 0, Game.width, Game.height);
 
-	for(var screenIndex in this.screenStack)
+	if(this.worldScreen)
+		this.worldScreen.draw();
+	if(this.menuScreen)
+		this.menuScreen.draw();
+};
+
+Game.newGame = function()
+{
+	if(this.menuScreen)
 	{
-		var blockDraw = this.screenStack[screenIndex].draw();
-		if(blockDraw)
-			break;
+		this.menuScreen.deactivate();
+		this.menuScreen = null;
 	}
+	if(this.worldScreen)
+	{
+		this.worldScreen.deactivate();
+		this.worldScreen = null;
+	}
+	this.worldScreen = new WorldScreen(this);
+};
+
+Game.onGameOver = function()
+{
+	if(this.menuScreen)
+	{
+		this.menuScreen.deactivate();
+		this.menuScreen = null;
+	}
+	this.menuScreen = new MainMenuScreen(this);
 };
 
 Game.fps = 60;

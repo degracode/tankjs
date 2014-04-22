@@ -4,10 +4,14 @@
 function Team(name)
 {
 	this.name = name;
+	this.members = [];
 };
 
-Team.prototype.members = [];
-Team.prototype.name = "";
+Team.prototype.getNumAliveMembers =
+	function()
+	{
+		return this.members.length;
+	};
 
 Team.prototype.addMember =
 	function(member)
