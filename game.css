@@ -18,18 +18,58 @@
 .menu
 {
     z-index: 10;
+    text-align: center;
 }
 
 .menu-centre-column
 {
-    left: 50%;
+    display: inline-block;
     top: 120px;
     position: relative;
 }
 
+.menu-title,
+.menu-item
+{
+    animation: buttonOn 1s;
+    -webkit-animation: buttonOn 1s;
+}
+
 .menu-title
 {
-    text-align: center;
-    left: -50%;
-    position: relative;
+    
+}
+
+.menu-item
+{
+    border: 2px solid;
+    border-radius: 25px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: skyblue;
+    border-color: lightseagreen;
+}
+
+.menu-item:hover
+{
+    border-color: red;
+}
+
+.menu-item:active
+{
+    background-color: lightseagreen;
+}
+
+@keyframes buttonOn
+{
+    from { transform: rotateX(-90deg); }
+    to { transform: rotateX(0deg); }
+}
+
+@-webkit-keyframes buttonOn
+{
+    from { -webkit-transform: rotateX(-90deg); }
+    to { -webkit-transform: rotateX(0deg); }
 }
