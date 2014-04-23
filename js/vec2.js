@@ -118,3 +118,23 @@ Vec2.prototype.equals = function(rhs)
 {
 	return this.x==rhs.x && this.y==rhs.y;
 };
+
+Vec2.prototype.rotate = function(angle)
+{
+	var cosAngle = Math.cos(angle);
+	var sinAngle = Math.sin(angle);
+	
+	var oldX = this.x;
+	this.x = oldX * cosAngle - this.y * sinAngle;
+	this.y = oldX * sinAngle + this.y * cosAngle;
+	
+	return this;
+};
+
+Vec2.prototype.Rotate = function(angle)
+{
+	var cosAngle = Math.cos(angle);
+	var sinAngle = Math.sin(angle);
+	
+	return new Vec2(this.x * cosAngle - this.y * sinAngle, this.y * sinAngle + this.y * cosAngle)
+};
