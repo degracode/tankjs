@@ -4,6 +4,11 @@ function Vec2( x, y )
 	this.y = y;
 }
 
+Vec2.prototype.toString = function()
+{
+	return "X: " + this.x + ", Y: " + this.y;
+};
+
 Vec2.prototype.Clone = function()
 {
 	return new Vec2(this.x, this.y);
@@ -137,4 +142,9 @@ Vec2.prototype.Rotate = function(angle)
 	var sinAngle = Math.sin(angle);
 	
 	return new Vec2(this.x * cosAngle - this.y * sinAngle, this.y * sinAngle + this.y * cosAngle)
+};
+
+Vec2.prototype.Dot = function(rhs)
+{
+	return (this.x * rhs.x) + (this.y * rhs.y);
 };

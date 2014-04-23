@@ -21,5 +21,5 @@ Prop.prototype.draw =
 Prop.prototype.updateBounds =
 	function()
 	{
-		this.bounds = new AABB(this.position, this.size);
+		this.bounds = new OBB(this.position, this.size, 0);
 	};

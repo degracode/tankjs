@@ -87,7 +87,7 @@ Tank.prototype.applyConstraints =
 				var contact = this.bounds.testCollision(entity.bounds);
 				if(contact.hit)
 				{
-					this.position.addv(contact.penetration);
+					this.position.subv(contact.mvt);
 					this.updateBounds();
 				}
 			}
@@ -97,7 +97,7 @@ Tank.prototype.applyConstraints =
 Tank.prototype.updateBounds =
 	function()
 	{
-		this.bounds = new AABB(this.position, this.size, 0);
+		this.bounds = new OBB(this.position, this.size, this.rotation);
 	};
 
 Tank.prototype.destroy =
