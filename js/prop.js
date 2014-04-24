@@ -12,9 +12,9 @@ Prop.prototype.draw =
 	function( canvas )
 	{
 		canvas.save();
-		canvas.translate(this.position.x, this.position.y);
+		canvas.translate(Game.worldToCanvas(this.position));
 
-		canvas.drawImage(this.image, -this.size.x / 2, -this.size.y / 2, this.size.x, this.size.y);
+		canvas.drawImage(this.image, Game.worldToCanvas(this.size.Muls(0.5).negate()), Game.worldToCanvas(this.size));
 		canvas.restore();
 	};
 

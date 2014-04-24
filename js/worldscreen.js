@@ -52,14 +52,14 @@ WorldScreen.prototype.draw = function()
 {
 	for(var track in this.trackEffects)
 	{
-		this.trackEffects[track].draw(this.game.context);
+		this.trackEffects[track].draw(this.game.canvas);
 	}
 
 	for(var entityId in this.entities)
 	{
 		var entity = this.entities[entityId];
 		if(entity.draw)
-			entity.draw(this.game.context);
+			entity.draw(this.game.canvas);
 	}
 
 	return false;

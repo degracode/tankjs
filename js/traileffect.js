@@ -31,14 +31,14 @@ TrailEffect.prototype.draw =
 			canvas.save();
 
 			canvas.beginPath();
-			canvas.moveTo(this.points[0].x, this.points[0].y);
+			canvas.moveTo(this.points[0]);
 			for(var pointNum = 1; pointNum < this.points.length; ++pointNum)
 			{
-				canvas.lineTo(this.points[pointNum].x, this.points[pointNum].y);
+				canvas.lineTo(this.points[pointNum]);
 			}
-			canvas.lineWidth = 5;
-			canvas.strokeStyle = 'rgb(0, 0, 0)';
-			canvas.globalAlpha = 0.2;
+			canvas.getCanvas().lineWidth = 5;
+			canvas.getCanvas().strokeStyle = 'rgb(0, 0, 0)';
+			canvas.getCanvas().globalAlpha = 0.2;
 			canvas.setLineDash([3,2]);
 			canvas.stroke();
 

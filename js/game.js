@@ -7,10 +7,8 @@ Game.initialise = function()
 	Game.resizeCanvas();
 	window.addEventListener('resize', Game.resizeCanvas, false);
 
-	//this.width = newWidth;
-	//this.height = newHeight;
-
 	this.context = viewport.getContext("2d");
+	this.canvas = new Canvas(this.context);
 
 	this.key = new Key();
 	this.mouse = new Mouse(viewport);
@@ -140,7 +138,7 @@ Game.resizeCanvas =
 	function()
 	{
 		var contentNode = document.getElementById("content");
-		var aspectRatio = 16 / 9;
+		var aspectRatio = Game.width / Game.height;
 		var newWidth = window.innerWidth;
 		var newHeight = window.innerHeight;
 		var newAspectRatio = newWidth / newHeight;
@@ -156,7 +154,14 @@ Game.resizeCanvas =
 		var viewport = document.getElementById("viewport");
 		viewport.width = newWidth;
 		viewport.height = newHeight;
-	}
+
+		Game.worldToCanvasRatio = new Vec2(newWidth / Game.width, newHeight / Game.height);
+	};
+
+Game.worldToCanvas = function(position)
+{
+	return position.Mulv(Game.worldToCanvasRatio);
+};
 
 Game.initialise();
 window.onEachFrame(Game.run());

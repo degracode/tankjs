@@ -63,15 +63,15 @@ Tank.prototype.draw =
 	function( canvas )
 	{
 		canvas.save();
-		canvas.translate(this.position.x, this.position.y);
+		canvas.translate(Game.worldToCanvas(this.position));
 
 		canvas.save();
 		canvas.rotate(this.rotation);
-		canvas.drawImage(this.bodyGraphic, -this.size.x / 2, -this.size.y / 2, this.size.x, this.size.y);
+		canvas.drawImage(this.bodyGraphic, Game.worldToCanvas(this.size.Muls(0.5).negate()), Game.worldToCanvas(this.size));
 		canvas.restore();
 
 		canvas.rotate(this.turretRotation);
-		canvas.drawImage(this.turretGraphic, -this.size.x / 2, -this.size.y / 2, this.size.x, this.size.y);
+		canvas.drawImage(this.turretGraphic, Game.worldToCanvas(this.size.Muls(0.5).negate()), Game.worldToCanvas(this.size));
 
 		canvas.restore();
 	};
