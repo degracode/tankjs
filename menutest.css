@@ -1,0 +1,21 @@
+.game-container
+{
+    -webkit-perspective: 1500px;
+    perspective: 1500px
+}
+
+.game-screen
+{
+    background-color: green;
+    
+    -webkit-transform-origin: 100% 50%;
+    transform-origin: 100% 50%;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+.game-screen
+{
+    -webkit-transform: rotateY(-10deg);
+    transform: rotateY(-10deg);
+}
