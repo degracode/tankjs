@@ -1,80 +1,134 @@
+*, *:after, *::before
+{
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+	
+html, body, .game-container, .content-pane, .content-wrapper
+{
+	height: 100%
+}
+
+.content-wrapper
+{
+	overflow-y: hidden;
+	background: #f3efe0;
+}
+
+.content-wrapper, .content-wrapper-inner
+{
+	position: relative;
+}
+
 .game-container
 {
-    width: 640px;
-    height: 512px;
-    position: relative;
+	position: relative;
+	overflow: hidden;
+	
+	/* effect */
+	-webkit-perspective: 1500px;
+	perspective: 1500px;
 }
 
-.viewport,
+.content-pane
+{
+	position: relative;
+	left: 0;
+	z-index: 99;
+	height: 100%
+	-webkit-transition: -webkit-transform 0.5s;
+	transition: transform 0.5s;
+	
+	/* effect */
+	-webkit-transform-origin: 100% 50%;
+	transform-origin: 100% 50%;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+
+.content-pane::after
+{
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 0;
+	height: 0;
+	background: rgba(0,0,0,0.2);
+	content: '';
+	opacity: 0;
+	-webkit-transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
+	transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
+}
+
+.menu-open .content-pane::after
+{
+	width: 100%;
+	height: 100%;
+	opacity: 1;
+	-webkit-transition: opacity 0.5s;
+	transition: opacity 0.5s;
+}
+
 .menu
 {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	visibility: hidden;
+	width: 300px;
+	height: 100%;
+	background: #48a770;
+	-webkit-transition: all 0.5s;
+	transition: all 0.5s;
+	
+	/* effect */
+	opacity: 1;
+	-webkit-transform: translate3d(-100%, 0, 0);
+	transform: translate3d(-100%, 0, 0);
 }
 
-.menu
+.menu::after
 {
-    z-index: 10;
-    text-align: center;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.2);
+	content: '';
+	opacity: 1;
+	-webkit-transition: opacity 0.5s;
+	transition: opacity 0.5s;
+	
+	/* effect */
+	display: none;
 }
 
-.menu-centre-column
+.menu-open .menu::after
 {
-    display: inline-block;
-    top: 120px;
-    position: relative;
+	width: 0;
+	height: 0;
+	opacity: 0;
+	-webkit-transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
+	transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
 }
 
-.menu-title,
-.menu-item
+.menu-open .content-pane
 {
-    animation: buttonOn 1s;
-    -webkit-animation: buttonOn 1s;
+	/* effect */
+	-webkit-transform: rotateY(-10deg);
+	transform: rotateY(-10deg);
 }
 
-.menu-title
+.menu-open .menu
 {
-    
+	/* effect */
+	visibility: visible;
+	-webkit-transition: -webkit-transform 0.5s;
+	transition: transform 0.5s;
+	-webkit-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
 }
 
-.menu-item
-{
-    border: 2px solid;
-    border-radius: 25px;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    background-color: skyblue;
-    border-color: lightseagreen;
-}
 
-.menu-item:hover
-{
-    border-color: red;
-}
-
-.menu-item:active
-{
-    background-color: lightseagreen;
-}
-
-.hidden
-{
-    visibility: hidden;
-}
-
-@keyframes buttonOn
-{
-    from { transform: rotateX(-90deg); }
-    to { transform: rotateX(0deg); }
-}
-
-@-webkit-keyframes buttonOn
-{
-    from { -webkit-transform: rotateX(-90deg); }
-    to { -webkit-transform: rotateX(0deg); }
-}

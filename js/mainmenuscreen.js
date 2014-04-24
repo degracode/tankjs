@@ -5,7 +5,7 @@ function MainMenuScreen(game)
 {
 	this.game = game;
 
-	$("#main-menu").toggleClass("hidden", false);
+	$("#game-container").toggleClass("menu-open", true);
 	$("#new-game").on('click', null, this, function(eventObject){eventObject.data.game.newGame();});
 }
 
@@ -21,7 +21,7 @@ MainMenuScreen.prototype.draw = function()
 MainMenuScreen.prototype.deactivate = function()
 {
 	$("#new-game").off('click');
-	$("#main-menu").toggleClass("hidden", true);
+	$("#game-container").toggleClass("menu-open", false);
 
 	this.game.menuScreen = null;
 };

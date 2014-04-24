@@ -21,17 +21,18 @@
 	<script type="text/javascript" src="js/mainmenuscreen.js"></script>
 </head>
 <body>
-	<div class="container">
-		<div class="heading">
-			<h1 class="title">Game!</h1>
-		</div>
-	</div>
-	<div class="game-container">
-		<canvas class="viewport" id="viewport" width="640" height="512"></canvas>
+	<div class="game-container" id="game-container">
 		<div class="menu" id="main-menu">
 			<div class="menu-centre-column">
 				<p class="menu-title">Main Menu</p>
 				<p class="menu-item" id="new-game">New Game</p>
+			</div>
+		</div>
+		<div class="content-pane">
+			<div class="content-wrapper">
+				<div class="content">
+					<canvas class="viewport" id="viewport" width="640" height="512"></canvas>
+				</div>
 			</div>
 		</div>
 	</div>
