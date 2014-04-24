@@ -4,7 +4,12 @@ Game.height = 512;
 
 Game.initialise = function()
 {
-	var viewport = document.getElementById("viewport");
+	Game.resizeCanvas();
+	window.addEventListener('resize', Game.resizeCanvas, false);
+
+	//this.width = newWidth;
+	//this.height = newHeight;
+
 	this.context = viewport.getContext("2d");
 
 	this.key = new Key();
@@ -130,6 +135,28 @@ function cancelDefaultEventBehaviour(event)
 	e.returnValue = false;
 	return false;
 }
+
+Game.resizeCanvas =
+	function()
+	{
+		var contentNode = document.getElementById("content");
+		var aspectRatio = 16 / 9;
+		var newWidth = window.innerWidth;
+		var newHeight = window.innerHeight;
+		var newAspectRatio = newWidth / newHeight;
+		if(newAspectRatio > aspectRatio)
+			newWidth = newHeight * aspectRatio;
+		else
+			newHeight = newWidth / aspectRatio;
+		contentNode.style.width = newWidth + "px";
+		contentNode.style.height = newHeight + "px";
+		contentNode.style.marginLeft = (-newWidth / 2) + "px";
+		contentNode.style.marginTop = (-newHeight / 2) + "px";
+
+		var viewport = document.getElementById("viewport");
+		viewport.width = newWidth;
+		viewport.height = newHeight;
+	}
 
 Game.initialise();
 window.onEachFrame(Game.run());
