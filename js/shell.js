@@ -54,7 +54,6 @@ Shell.prototype.update =
 							return;
 						}
 						
-						this.position.subv(contact.mvt);
 						this.updateBounds();
 					}
 				}
