@@ -1,3 +1,5 @@
+"use strict";
+
 function Key()
 {
 	this._pressed = {};

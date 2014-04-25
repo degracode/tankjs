@@ -1,3 +1,5 @@
+"use strict";
+
 function Prop( pos, image )
 {
 	this.position = pos.Clone();

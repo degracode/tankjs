@@ -1,3 +1,5 @@
+"use strict";
+
 function Mouse( context )
 {
 	this._pressed = {};

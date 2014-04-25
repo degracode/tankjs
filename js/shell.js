@@ -1,3 +1,5 @@
+"use strict";
+
 function Shell( pos, dir, image, screen )
 {
 	this.screen = screen;

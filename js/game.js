@@ -1,3 +1,5 @@
+"use strict";
+
 var Game = {};
 Game.width = 640;
 Game.height = 512;

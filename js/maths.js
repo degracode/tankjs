@@ -1,3 +1,5 @@
+"use strict";
+
 Math.TwoPi = Math.PI * 2;
 Math.Pi = Math.PI;
 
