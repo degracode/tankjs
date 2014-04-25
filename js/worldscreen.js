@@ -86,3 +86,39 @@ WorldScreen.prototype.removeEntity = function(id)
 {
 	delete this.entities[id];
 };
+
+
+WorldScreen.prototype.rayTest = function(origin, direction, entityToIgnore)
+{
+	var result = {};
+	result.hit = false;
+	result.position = null;
+	result.entity = null;
+
+	var lowestRayT = -1;
+
+	for(var entityId in this.entities)
+	{
+		var entity = this.entities[entityId];
+		if(entity.bounds && entity != entityToIgnore)
+		{
+			var rayTestResult = entity.bounds.rayTest(origin, direction);
+			if(rayTestResult.hit)
+			{
+				if(lowestRayT < 0 || rayTestResult.t < lowestRayT)
+				{
+					lowestRayT = rayTestResult.t;
+					result.entity = entity;
+					result.hit = true;
+				}
+			}
+		}
+	}
+
+	if(result.hit)
+	{
+		result.position = origin.Addv(direction.Muls(lowestRayT));
+	}
+
+	return result;
+};

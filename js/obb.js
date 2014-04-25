@@ -16,7 +16,7 @@ OBB.prototype.rotate =
 	{
 		this.rotation = (this.rotation + angle) % Math.TwoPi;
 		this.calculateVectors();
-	}
+	};
 
 OBB.prototype.calculateVectors =
 	function()
@@ -32,12 +32,18 @@ OBB.prototype.calculateVectors =
 
 		var calcNormal = function(corner1, corner2) { var edge = corner2.Subv(corner1).normalise(); return new Vec2(edge.y, -edge.x); };
 
+		this.edges = [];
+		this.edges.push([this.corners[0], this.corners[1]]);
+		this.edges.push([this.corners[1], this.corners[2]]);
+		this.edges.push([this.corners[2], this.corners[3]]);
+		this.edges.push([this.corners[3], this.corners[0]]);
+
 		this.axes = [];
 		this.axes.push(calcNormal(this.corners[0], this.corners[1]));
 		this.axes.push(calcNormal(this.corners[1], this.corners[2]));
 		this.axes.push(calcNormal(this.corners[2], this.corners[3]));
 		this.axes.push(calcNormal(this.corners[3], this.corners[0]));
-	}
+	};
 	
 OBB.prototype.testCollision =
 	function(shape)
@@ -47,7 +53,7 @@ OBB.prototype.testCollision =
 		else if(shape instanceof AABB)
 			return this.testCollisionVsAABB(shape);
 		return {"hit": false};
-	}
+	};
 
 OBB.prototype.testCollisionVsOBB =
 	function(obb)
@@ -93,10 +99,60 @@ OBB.prototype.testCollisionVsOBB =
 		}
 
 		return {"hit": true, "mvt": smallestOverlapAxis.Muls(smallestOverlap)};
-	}
+	};
 
 OBB.prototype.testCollisionVsAABB =
 	function(aabb)
 	{
 		return {"hit": false};
-	}
+	};
+
+OBB.prototype.rayTest =
+	function(origin, direction)
+	{
+		var lowestRayT = -1;
+
+		var end = origin.Addv(direction);
+
+		for(var edgeNum = 0; edgeNum < this.edges.length; ++edgeNum)
+		{
+			var edge = this.edges[edgeNum];
+
+			var denominator = ((edge[1].y - edge[0].y) * (end.x - origin.x)) - ((edge[1].x - edge[0].x) * (end.y - origin.y));
+			if (denominator == 0)
+				continue;
+
+			var a = origin.y - edge[0].y;
+			var b = origin.x - edge[0].x;
+			var numerator1 = ((edge[1].x - edge[0].x) * a) - ((edge[1].y - edge[0].y) * b);
+			var numerator2 = ((end.x - origin.x) * a) - ((end.y - origin.y) * b);
+			a = numerator1 / denominator;
+			b = numerator2 / denominator;
+
+			// if we cast these lines infinitely in both directions, they intersect here:
+			//result.x = origin.x + (a * (direction.x - origin.x));
+			//result.y = origin.y + (a * (direction.y - origin.y));
+			/*
+			 // it is worth noting that this should be the same as:
+			 x = edge[0].x + (b * (edge[1].x - edge[0].x));
+			 y = edge[0].y + (b * (edge[1].y - edge[0].y));
+			 */
+			// if line1 is a segment and line2 is infinite, they intersect if:
+			if (a < 0)
+				continue;
+
+			// if line2 is a segment and line1 is infinite, they intersect if:
+			if (b > 0 && b < 1)
+			{
+				if(lowestRayT < 0 || a < lowestRayT)
+				{
+					lowestRayT = a;
+				}
+			}
+		}
+
+		if(lowestRayT >= 0)
+			return {"hit": true, "t": lowestRayT};
+		else
+			return {"hit": false};
+	};
