@@ -38,7 +38,7 @@ Tank.prototype.update =
 			this.rotation = Math.angleLerp(this.rotation, targetRotation, 0.2);
 		}
 
-		this.position.addv(movementDirection);
+		this.position.addv(movementDirection.muls(constants.tankSpeed));
 		this.updateBounds();
 
 		this.applyConstraints();

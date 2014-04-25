@@ -93,6 +93,28 @@ Vec2.prototype.muls = function( scalar )
 	return this;
 };
 
+Vec2.prototype.Divv = function( vec )
+{
+	return this.Clone().divv(vec);
+};
+Vec2.prototype.divv = function( vec )
+{
+	this.x /= vec.x;
+	this.y /= vec.y;
+	return this;
+};
+
+Vec2.prototype.Divs = function( scalar )
+{
+	return this.Clone().divs(scalar);
+};
+Vec2.prototype.divs = function( scalar )
+{
+	this.x /= scalar;
+	this.y /= scalar;
+	return this;
+};
+
 Vec2.prototype.Normalise = function()
 {
 	return this.Clone().normalise();

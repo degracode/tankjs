@@ -6,7 +6,7 @@ function Shell( pos, dir, image, screen )
 
 	Prop.call(this, pos, image);
 
-	this.numBouncesRemaining = 3;
+	this.numBouncesRemaining = constants.numShellBounces;
 	this.direction = dir.Clone();
 }
 
@@ -17,7 +17,7 @@ Shell.prototype.size = new Vec2(16, 16);
 Shell.prototype.update =
 	function()
 	{
-		this.position.addv(this.direction);
+		this.position.addv(this.direction.Muls(constants.shellSpeed));
 		this.updateBounds();
 
 		for(var entityId in this.screen.entities)
