@@ -41,7 +41,7 @@ Game.update = function()
 
 Game.draw = function()
 {
-	this.context.clearRect(0, 0, Game.width, Game.height);
+	this.context.clearRect(0, 0, Game.context.canvas.width, Game.context.canvas.height);
 
 	if(this.worldScreen)
 		this.worldScreen.draw();
@@ -157,12 +157,23 @@ Game.resizeCanvas =
 		viewport.width = newWidth;
 		viewport.height = newHeight;
 
-		Game.worldToCanvasRatio = new Vec2(newWidth / Game.width, newHeight / Game.height);
+		Game.worldToCanvasRatio = newWidth / Game.width;
 	};
 
 Game.worldToCanvas = function(position)
 {
-	return position.Mulv(Game.worldToCanvasRatio);
+	if(position instanceof Vec2)
+		return position.Muls(Game.worldToCanvasRatio);
+	else
+		return position * Game.worldToCanvasRatio;
+};
+
+Game.canvasToWorld = function(position)
+{
+	if(position instanceof Vec2)
+		return position.Divs(Game.worldToCanvasRatio);
+	else
+		return position / Game.worldToCanvasRatio;
 };
 
 Game.initialise();

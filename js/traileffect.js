@@ -33,15 +33,15 @@ TrailEffect.prototype.draw =
 			canvas.save();
 
 			canvas.beginPath();
-			canvas.moveTo(this.points[0]);
+			canvas.moveTo(Game.worldToCanvas(this.points[0]));
 			for(var pointNum = 1; pointNum < this.points.length; ++pointNum)
 			{
-				canvas.lineTo(this.points[pointNum]);
+				canvas.lineTo(Game.worldToCanvas(this.points[pointNum]));
 			}
-			canvas.getCanvas().lineWidth = 5;
+			canvas.getCanvas().lineWidth = Game.worldToCanvas(5);
 			canvas.getCanvas().strokeStyle = 'rgb(0, 0, 0)';
 			canvas.getCanvas().globalAlpha = 0.2;
-			canvas.setLineDash([3,2]);
+			canvas.setLineDash([Game.worldToCanvas(3),Game.worldToCanvas(2)]);
 			canvas.stroke();
 
 			canvas.restore();
