@@ -5,5 +5,5 @@
  */
 var constants = {};
 constants.shellSpeed = 5;
-constants.tankSpeed = 1;
+constants.tankSpeed = 0.5;
 constants.numShellBounces = 3;

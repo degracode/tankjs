@@ -7,6 +7,7 @@ function Tank( vecPos, screen, bodyGraphic, turretGraphic )
 	this.position = vecPos.Clone();
 	this.rotation = 0;
 	this.turretRotation = 0;
+	this.turretDirection = new Vec2(0, 1);
 	this.size = new Vec2(32, 32);
 
 	this.leftTrackEffect = new TrailEffect();
@@ -44,16 +45,16 @@ Tank.prototype.update =
 		this.applyConstraints();
 		this.updateBounds();
 
-		var turretDirection = this.controlInterface.getTurretDirection();
-		this.turretRotation = Math.atan2(turretDirection.y, turretDirection.x);
+		this.turretDirection = this.controlInterface.getTurretDirection();
+		this.turretRotation = Math.atan2(this.turretDirection.y, this.turretDirection.x);
 
 		if(this.controlInterface.isTryingToFire())
 		{
-			var turretEnd = turretDirection.ScaleToLength(32).addv(this.position);
-			this.screen.addEntity(new Shell(turretEnd, turretDirection, this.screen.game.assets.shell, this.screen));
+			var turretEnd = this.turretDirection.ScaleToLength(32).addv(this.position);
+			this.screen.addEntity(new Shell(turretEnd, this.turretDirection, this.screen.game.assets.shell, this.screen));
 		}
 
-		var forwardDirection = (new Vec2(Math.cos(this.rotation), Math.sin(this.rotation)));
+		var forwardDirection = new Vec2(Math.cos(this.rotation), Math.sin(this.rotation));
 		var sidewaysDirection = (new Vec2(forwardDirection.y, -forwardDirection.x)).muls(10);
 		forwardDirection.muls(-10);
 		var frontBumperCentre = forwardDirection.Addv(this.position);
@@ -64,6 +65,21 @@ Tank.prototype.update =
 Tank.prototype.draw =
 	function( canvas )
 	{
+		canvas.save();
+		var rayTest = this.screen.rayTest(this.position, this.turretDirection, this);
+		if(rayTest.hit)
+		{
+			canvas.beginPath();
+			canvas.moveTo(Game.worldToCanvas(this.position));
+			canvas.lineTo(Game.worldToCanvas(rayTest.position));
+			canvas.getCanvas().lineWidth = Game.worldToCanvas(5);
+			canvas.getCanvas().strokeStyle = 'rgb(0, 255, 0)';
+			canvas.getCanvas().globalAlpha = 0.5;
+			canvas.setLineDash([Game.worldToCanvas(5),Game.worldToCanvas(5)]);
+			canvas.stroke();
+		}
+		canvas.restore();
+
 		canvas.save();
 		canvas.translate(Game.worldToCanvas(this.position));
 

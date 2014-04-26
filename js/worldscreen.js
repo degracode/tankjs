@@ -90,10 +90,13 @@ WorldScreen.prototype.removeEntity = function(id)
 
 WorldScreen.prototype.rayTest = function(origin, direction, entityToIgnore)
 {
+	var normalisedDirection = direction.Normalise();
+
 	var result = {};
 	result.hit = false;
 	result.position = null;
 	result.entity = null;
+	result.distance = 0;
 
 	var lowestRayT = -1;
 
@@ -102,7 +105,7 @@ WorldScreen.prototype.rayTest = function(origin, direction, entityToIgnore)
 		var entity = this.entities[entityId];
 		if(entity.bounds && entity != entityToIgnore)
 		{
-			var rayTestResult = entity.bounds.rayTest(origin, direction);
+			var rayTestResult = entity.bounds.rayTest(origin, normalisedDirection);
 			if(rayTestResult.hit)
 			{
 				if(lowestRayT < 0 || rayTestResult.t < lowestRayT)
@@ -117,7 +120,8 @@ WorldScreen.prototype.rayTest = function(origin, direction, entityToIgnore)
 
 	if(result.hit)
 	{
-		result.position = origin.Addv(direction.Muls(lowestRayT));
+		result.position = origin.Addv(normalisedDirection.Muls(lowestRayT));
+		result.distance = lowestRayT;
 	}
 
 	return result;

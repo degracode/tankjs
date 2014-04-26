@@ -133,9 +133,14 @@ Vec2.prototype.ScaleToLength = function(length)
 
 Vec2.prototype.scaleToLength = function(newLength)
 {
-	var length = Math.sqrt((this.x * this.x) + (this.y * this.y));
+	var length = this.Length();
 	this.muls(newLength / length);
 	return this;
+};
+
+Vec2.prototype.Length = function()
+{
+	return Math.sqrt((this.x * this.x) + (this.y * this.y));
 };
 
 Vec2.prototype.isZero = function()
@@ -172,3 +177,13 @@ Vec2.prototype.Dot = function(rhs)
 {
 	return (this.x * rhs.x) + (this.y * rhs.y);
 };
+
+Vec2.prototype.DistanceTo = function(rhs)
+{
+	return this.Subv(rhs).Length();
+}
+
+Vec2.prototype.DirectionTo = function(rhs)
+{
+	return rhs.Subv(this).normalise();
+}
