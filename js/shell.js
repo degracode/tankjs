@@ -10,7 +10,7 @@ function Shell( screen, pos, dir, image )
 
 Shell.prototype = new Prop(null, new Vec2(0, 0), null);
 Shell.constuctor = Shell;
-Shell.prototype.size = new Vec2(16, 16);
+Shell.prototype.size = new Vec2(constants.shellSize, constants.shellSize);
 
 Shell.prototype.update =
 	function()
@@ -36,18 +36,24 @@ Shell.prototype.update =
 					{
 						var horzMagnitude = Math.abs(contact.mvt.x);
 						var vertMagnitude = Math.abs(contact.mvt.y);
+
+						var doneBounce = false;
+
 						if(horzMagnitude!=0 && Math.sign(contact.mvt.x)==Math.sign(this.direction.x))
 						{
 							this.direction.x *= -1;
-							--this.numBouncesRemaining;
+							doneBounce = true;
 						}
 
 						if(vertMagnitude!=0 && Math.sign(contact.mvt.y)==Math.sign(this.direction.y))
 						{
 							this.direction.y *= -1;
-							--this.numBouncesRemaining;
+							doneBounce = true;
 						}
 
+						if(doneBounce)
+							--this.numBouncesRemaining;
+						
 						if(this.numBouncesRemaining < 0)
 						{
 							this.destroy();
