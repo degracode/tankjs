@@ -60,7 +60,7 @@ Game.prototype.initialise = function()
 
 	window.onEachFrame(this.run());
 
-	this.worldScreen = new WorldScreen(this);
+	this.worldScreen = new WorldScreen(this, levelData[0]);
 	this.menuScreen = new MainMenuScreen(this);
 };
 
@@ -101,7 +101,7 @@ Game.prototype.newGame = function()
 	}
 	$("#game-over").toggleClass("on", false);
 
-	this.worldScreen = new WorldScreen(this);
+	this.worldScreen = new WorldScreen(this, levelData[0]);
 };
 
 Game.prototype.onGameOver = function()

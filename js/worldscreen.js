@@ -3,7 +3,7 @@
 /**
  * Created by Ed on 20/04/2014.
  */
-function WorldScreen(game)
+function WorldScreen(game, level)
 {
 	this.game = game;
 
@@ -15,11 +15,9 @@ function WorldScreen(game)
 	this.playerTeam = new Team("Player");
 	this.enemyTeam = new Team("Enemy");
 
-	var playerTank = this.addEntity(new Tank(this, new Vec2(128, 128), this.game.assets.tank_body, this.game.assets.tank_turret));
+	var playerTank = this.addEntity(new Tank(this, level.playerStartPos, this.game.assets.tank_body, this.game.assets.tank_turret));
 	playerTank.controlInterface = new ControlInterfacePlayer(playerTank);
 	this.playerTeam.addMember(playerTank);
-
-	this.addAITank(new Vec2(400, 300));
 
 	for(var x = 0; x < this.game.width / 64; x++)
 	{
@@ -35,11 +33,21 @@ function WorldScreen(game)
 		this.addBlock(new Vec2(this.game.width - 32, blockY));
 	}
 
-	//this.addBlock(new Vec2(416, 224), this.game.assets.block);
-	//this.addBlock(new Vec2(352, 224), this.game.assets.block);
-	//this.addBlock(new Vec2(288, 224), this.game.assets.block);
-	this.addBlock(new Vec2(288, 288), this.game.assets.block);
-	this.addBlock(new Vec2(288, 352), this.game.assets.block);
+	for(var featureNum = 0; featureNum < level.features.length; ++featureNum)
+	{
+		var feature = level.features[featureNum];
+		switch(feature.type)
+		{
+		case "block":
+			this.addBlock(feature.position);
+			break;
+		case "tank":
+			this.addAITank(feature.position);
+			break;
+		default:
+			break;
+		}
+	}
 };
 
 WorldScreen.prototype.update = function()
