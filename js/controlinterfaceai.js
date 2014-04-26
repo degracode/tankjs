@@ -9,6 +9,7 @@ function ControlInterfaceAI( entity )
 	this.screen = entity.screen;
 
 	this.targetPosition = null;
+	this.targetTurretRotation = 0;
 }
 
 ControlInterfaceAI.prototype.update =
@@ -23,11 +24,16 @@ ControlInterfaceAI.prototype.update =
 			randomDirection = new Vec2(Math.cos(randomDirection), Math.sin(randomDirection));
 
 			var rayResult = this.screen.rayTest(this.entity.position, randomDirection, this.entity);
-			if(rayResult.hit && rayResult.distance > 50)
+			if(rayResult.hit && rayResult.distance > 100)
 			{
-				var distanceToTravel = Math.lerp(50, rayResult.distance, Math.random());
+				var distanceToTravel = Math.lerp(100, rayResult.distance, Math.random());
 				this.targetPosition = randomDirection.Muls(distanceToTravel).addv(this.entity.position);
 			}
+		}
+
+		if(Math.isWithinEpsilon(this.targetTurretRotation, this.entity.turretRotation, Math.Pi / 180))
+		{
+			this.targetTurretRotation = Math.random() * Math.TwoPi;
 		}
 	};
 
@@ -44,7 +50,9 @@ ControlInterfaceAI.prototype.getMovementDirection =
 ControlInterfaceAI.prototype.getTurretDirection =
 	function()
 	{
-		return new Vec2(-1, 0);
+		var newRotation = Math.angleLerpFixedSpeed(this.entity.turretRotation, this.targetTurretRotation, Math.Pi / 180);
+		var direction = new Vec2(Math.cos(newRotation), Math.sin(newRotation));
+		return [direction, newRotation];
 	};
 
 ControlInterfaceAI.prototype.isTryingToFire =

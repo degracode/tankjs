@@ -45,8 +45,9 @@ Tank.prototype.update =
 		this.applyConstraints();
 		this.updateBounds();
 
-		this.turretDirection = this.controlInterface.getTurretDirection();
-		this.turretRotation = Math.atan2(this.turretDirection.y, this.turretDirection.x);
+		var turretDirectionResult = this.controlInterface.getTurretDirection();
+		this.turretDirection = turretDirectionResult[0];
+		this.turretRotation = turretDirectionResult[1];
 
 		if(this.controlInterface.isTryingToFire())
 		{

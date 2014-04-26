@@ -35,7 +35,9 @@ ControlInterfacePlayer.prototype.getTurretDirection =
 	{
 		var worldSpaceCursor = Game.canvasToWorld(this.screen.game.mouse.position);
 		var direction = worldSpaceCursor.Subv(this.entity.position);
-		return direction.normalise();
+
+		var rotation = Math.atan2(direction.y, direction.x);
+		return [direction.normalise(), rotation];
 	};
 
 ControlInterfacePlayer.prototype.isTryingToFire =

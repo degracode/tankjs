@@ -5,7 +5,18 @@ Math.Pi = Math.PI;
 
 Math.lerp = function( source, dest, t )
 {
-	return (source * (1.0 - t)) + (dest * t)
+	return (source * (1.0 - t)) + (dest * t);
+};
+
+Math.lerpFixedSpeed = function( source, dest, speed )
+{
+	var diff = dest - source;
+	if(diff < 0)
+		diff = -Math.min(-diff, speed);
+	else
+		diff = Math.min(diff, speed);
+
+	return source + diff;
 };
 
 Math.angleLerp = function( source, dest, t )
@@ -18,6 +29,19 @@ Math.angleLerp = function( source, dest, t )
 	}
 
 	var result = Math.lerp(source, dest, t);
+	return result % Math.TwoPi;
+};
+
+Math.angleLerpFixedSpeed = function( source, dest, speed )
+{
+	var diff = Math.abs(source - dest);
+	if(diff > Math.PI)
+	{
+		if(source < dest) source += Math.TwoPi;
+		else dest += Math.TwoPi;
+	}
+
+	var result = Math.lerpFixedSpeed(source, dest, speed);
 	return result % Math.TwoPi;
 };
 
@@ -46,4 +70,10 @@ Math.sign = function(value)
 		return 1;
 	else
 		return 0;
+};
+
+Math.isWithinEpsilon = function(value, expected, epsilon)
+{
+	var delta = Math.abs(value - expected);
+	return delta < epsilon;
 };
