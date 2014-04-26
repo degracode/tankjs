@@ -61,6 +61,8 @@ Game.newGame = function()
 		this.worldScreen.deactivate();
 		this.worldScreen = null;
 	}
+	$("#game-over").toggleClass("on", false);
+
 	this.worldScreen = new WorldScreen(this);
 };
 
@@ -71,6 +73,8 @@ Game.onGameOver = function()
 		this.menuScreen.deactivate();
 		this.menuScreen = null;
 	}
+
+	$("#game-over").toggleClass("on", true);
 	this.menuScreen = new MainMenuScreen(this);
 };
 
