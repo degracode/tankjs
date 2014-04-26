@@ -50,7 +50,7 @@ Shell.prototype.update =
 							--this.numBouncesRemaining;
 						}
 
-						if(this.numBouncesRemaining<=0)
+						if(this.numBouncesRemaining < 0)
 						{
 							this.destroy();
 							return;
