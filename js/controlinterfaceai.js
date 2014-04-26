@@ -10,6 +10,7 @@ function ControlInterfaceAI( entity )
 
 	this.targetPosition = null;
 	this.targetTurretRotation = 0;
+	this.lookingAtTarget = false;
 }
 
 ControlInterfaceAI.prototype.update =
@@ -35,6 +36,16 @@ ControlInterfaceAI.prototype.update =
 		{
 			this.targetTurretRotation = Math.random() * Math.TwoPi;
 		}
+
+		var eyeRayResult = this.screen.rayTest(this.entity.position, this.entity.turretDirection, this.entity);
+		this.lookingAtTarget = false;
+		if(eyeRayResult.hit)
+		{
+			if(eyeRayResult.entity && eyeRayResult.entity.team && eyeRayResult.entity.team!=this.entity.team)
+			{
+				this.lookingAtTarget = true;
+			}
+		}
 	};
 
 ControlInterfaceAI.prototype.getMovementDirection =
@@ -58,5 +69,5 @@ ControlInterfaceAI.prototype.getTurretDirection =
 ControlInterfaceAI.prototype.isTryingToFire =
 	function()
 	{
-		return false;
+		return this.lookingAtTarget;
 	};
