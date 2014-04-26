@@ -1,6 +1,6 @@
 "use strict";
 
-function Tank( vecPos, screen, bodyGraphic, turretGraphic )
+function Tank( screen, vecPos, bodyGraphic, turretGraphic )
 {
 	this.screen = screen;
 
@@ -10,11 +10,11 @@ function Tank( vecPos, screen, bodyGraphic, turretGraphic )
 	this.turretDirection = new Vec2(0, 1);
 	this.size = new Vec2(32, 32);
 
-	this.leftTrackEffect = new TrailEffect();
+	this.leftTrackEffect = new TrailEffect(this.screen);
 	this.leftTrackEffect.numSegments = 0;
 	this.screen.trackEffects.push(this.leftTrackEffect);
 
-	this.rightTrackEffect = new TrailEffect();
+	this.rightTrackEffect = new TrailEffect(this.screen);
 	this.rightTrackEffect.numSegments = 0;
 	this.screen.trackEffects.push(this.rightTrackEffect);
 
@@ -52,7 +52,7 @@ Tank.prototype.update =
 		if(this.controlInterface.isTryingToFire())
 		{
 			var turretEnd = this.turretDirection.ScaleToLength(32).addv(this.position);
-			this.screen.addEntity(new Shell(turretEnd, this.turretDirection, this.screen.game.assets.shell, this.screen));
+			this.screen.addEntity(new Shell(this.screen, turretEnd, this.turretDirection, this.screen.game.assets.shell));
 		}
 
 		var forwardDirection = new Vec2(Math.cos(this.rotation), Math.sin(this.rotation));
@@ -71,26 +71,26 @@ Tank.prototype.draw =
 		if(rayTest.hit)
 		{
 			canvas.beginPath();
-			canvas.moveTo(Game.worldToCanvas(this.position));
-			canvas.lineTo(Game.worldToCanvas(rayTest.position));
-			canvas.getCanvas().lineWidth = Game.worldToCanvas(5);
+			canvas.moveTo(this.screen.game.worldToCanvas(this.position));
+			canvas.lineTo(this.screen.game.worldToCanvas(rayTest.position));
+			canvas.getCanvas().lineWidth = this.screen.game.worldToCanvas(5);
 			canvas.getCanvas().strokeStyle = 'rgb(0, 255, 0)';
 			canvas.getCanvas().globalAlpha = 0.5;
-			canvas.setLineDash([Game.worldToCanvas(5),Game.worldToCanvas(5)]);
+			canvas.setLineDash([this.screen.game.worldToCanvas(5),this.screen.game.worldToCanvas(5)]);
 			canvas.stroke();
 		}
 		canvas.restore();
 
 		canvas.save();
-		canvas.translate(Game.worldToCanvas(this.position));
+		canvas.translate(this.screen.game.worldToCanvas(this.position));
 
 		canvas.save();
 		canvas.rotate(this.rotation);
-		canvas.drawImage(this.bodyGraphic, Game.worldToCanvas(this.size.Muls(0.5).negate()), Game.worldToCanvas(this.size));
+		canvas.drawImage(this.bodyGraphic, this.screen.game.worldToCanvas(this.size.Muls(0.5).negate()), this.screen.game.worldToCanvas(this.size));
 		canvas.restore();
 
 		canvas.rotate(this.turretRotation);
-		canvas.drawImage(this.turretGraphic, Game.worldToCanvas(this.size.Muls(0.5).negate()), Game.worldToCanvas(this.size));
+		canvas.drawImage(this.turretGraphic, this.screen.game.worldToCanvas(this.size.Muls(0.5).negate()), this.screen.game.worldToCanvas(this.size));
 
 		canvas.restore();
 	};

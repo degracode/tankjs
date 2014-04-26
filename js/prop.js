@@ -1,7 +1,9 @@
 "use strict";
 
-function Prop( pos, image )
+function Prop( screen, pos, image )
 {
+	this.screen = screen;
+
 	this.position = pos.Clone();
 	this.image = image;
 
@@ -14,9 +16,9 @@ Prop.prototype.draw =
 	function( canvas )
 	{
 		canvas.save();
-		canvas.translate(Game.worldToCanvas(this.position));
+		canvas.translate(this.screen.game.worldToCanvas(this.position));
 
-		canvas.drawImage(this.image, Game.worldToCanvas(this.size.Muls(0.5).negate()), Game.worldToCanvas(this.size));
+		canvas.drawImage(this.image, this.screen.game.worldToCanvas(this.size.Muls(0.5).negate()), this.screen.game.worldToCanvas(this.size));
 		canvas.restore();
 	};
 

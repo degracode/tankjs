@@ -1,16 +1,14 @@
 "use strict";
 
-function Shell( pos, dir, image, screen )
+function Shell( screen, pos, dir, image )
 {
-	this.screen = screen;
-
-	Prop.call(this, pos, image);
+	Prop.call(this, screen, pos, image);
 
 	this.numBouncesRemaining = constants.numShellBounces;
 	this.direction = dir.Clone();
 }
 
-Shell.prototype = new Prop(new Vec2(0, 0), null);
+Shell.prototype = new Prop(null, new Vec2(0, 0), null);
 Shell.constuctor = Shell;
 Shell.prototype.size = new Vec2(16, 16);
 

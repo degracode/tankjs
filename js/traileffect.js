@@ -3,8 +3,9 @@
 /**
  * Created by Ed on 20/04/2014.
  */
-function TrailEffect()
+function TrailEffect(screen)
 {
+	this.screen = screen;
 	this.numSegments = 10;
 	this.points = [];
 }
@@ -33,15 +34,15 @@ TrailEffect.prototype.draw =
 			canvas.save();
 
 			canvas.beginPath();
-			canvas.moveTo(Game.worldToCanvas(this.points[0]));
+			canvas.moveTo(this.screen.game.worldToCanvas(this.points[0]));
 			for(var pointNum = 1; pointNum < this.points.length; ++pointNum)
 			{
-				canvas.lineTo(Game.worldToCanvas(this.points[pointNum]));
+				canvas.lineTo(this.screen.game.worldToCanvas(this.points[pointNum]));
 			}
-			canvas.getCanvas().lineWidth = Game.worldToCanvas(5);
+			canvas.getCanvas().lineWidth = this.screen.game.worldToCanvas(5);
 			canvas.getCanvas().strokeStyle = 'rgb(0, 0, 0)';
 			canvas.getCanvas().globalAlpha = 0.2;
-			canvas.setLineDash([Game.worldToCanvas(3),Game.worldToCanvas(2)]);
+			canvas.setLineDash([this.screen.game.worldToCanvas(3),this.screen.game.worldToCanvas(2)]);
 			canvas.stroke();
 
 			canvas.restore();

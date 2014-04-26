@@ -15,29 +15,29 @@ function WorldScreen(game)
 	this.playerTeam = new Team("Player");
 	this.enemyTeam = new Team("Enemy");
 
-	var playerTank = this.addEntity(new Tank(new Vec2(128, 128), this, this.game.assets.tank_body, this.game.assets.tank_turret));
+	var playerTank = this.addEntity(new Tank(this, new Vec2(128, 128), this.game.assets.tank_body, this.game.assets.tank_turret));
 	playerTank.controlInterface = new ControlInterfacePlayer(playerTank);
 	this.playerTeam.addMember(playerTank);
 
 	this.addAITank(new Vec2(400, 300));
 
-	for(var x = 0; x < Game.width / 64; x++)
+	for(var x = 0; x < this.game.width / 64; x++)
 	{
 		var blockX = (x * 64) + 32;
 		this.addBlock(new Vec2(blockX, 32));
-		this.addBlock(new Vec2(blockX, Game.height - 32));
+		this.addBlock(new Vec2(blockX, this.game.height - 32));
 	}
 
-	for(var y = 1; y < (Game.height / 64) - 1; y++)
+	for(var y = 1; y < (this.game.height / 64) - 1; y++)
 	{
 		var blockY = (y * 64) + 32;
 		this.addBlock(new Vec2(32, blockY));
-		this.addBlock(new Vec2(Game.width - 32, blockY));
+		this.addBlock(new Vec2(this.game.width - 32, blockY));
 	}
 
-	this.addBlock(new Vec2(416, 224), this.game.assets.block);
-	this.addBlock(new Vec2(352, 224), this.game.assets.block);
-	this.addBlock(new Vec2(288, 224), this.game.assets.block);
+	//this.addBlock(new Vec2(416, 224), this.game.assets.block);
+	//this.addBlock(new Vec2(352, 224), this.game.assets.block);
+	//this.addBlock(new Vec2(288, 224), this.game.assets.block);
 	this.addBlock(new Vec2(288, 288), this.game.assets.block);
 	this.addBlock(new Vec2(288, 352), this.game.assets.block);
 };
@@ -93,14 +93,14 @@ WorldScreen.prototype.removeEntity = function(id)
 
 WorldScreen.prototype.addAITank = function(position)
 {
-	var aiTank = this.addEntity(new Tank(position, this, this.game.assets.enemy_tank_body, this.game.assets.tank_turret));
+	var aiTank = this.addEntity(new Tank(this, position, this.game.assets.enemy_tank_body, this.game.assets.tank_turret));
 	aiTank.controlInterface = new ControlInterfaceAI(aiTank);
 	this.enemyTeam.addMember(aiTank);
 };
 
 WorldScreen.prototype.addBlock = function(position)
 {
-	this.addEntity(new Prop(position, this.game.assets.block));
+	this.addEntity(new Prop(this, position, this.game.assets.block));
 };
 
 WorldScreen.prototype.rayTest = function(origin, direction, entityToIgnore)

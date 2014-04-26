@@ -1,14 +1,50 @@
 "use strict";
 
-var Game = {};
-Game.width = 640;
-Game.height = 512;
-
-Game.initialise = function()
+function Game()
 {
-	Game.resizeCanvas();
-	window.addEventListener('resize', Game.resizeCanvas, false);
+	this.width = 640;
+	this.height = 512;
+	this.fps = 60;
+};
 
+Game.prototype.initialise = function()
+{
+	if(window.webkitRequestAnimationFrame)
+	{
+		window.onEachFrame = function( cb )
+		{
+			var _cb = function()
+			{
+				cb();
+				webkitRequestAnimationFrame(_cb);
+			};
+			_cb();
+		};
+	}
+	else if(window.mozRequestAnimationFrame)
+	{
+		window.onEachFrame = function( cb )
+		{
+			var _cb = function()
+			{
+				cb();
+				mozRequestAnimationFrame(_cb);
+			};
+			_cb();
+		};
+	}
+	else
+	{
+		window.onEachFrame = function( cb )
+		{
+			setInterval(cb, 1000 / this.fps);
+		};
+	}
+
+	this.resizeCanvas();
+	window.addEventListener('resize', this.resizeCanvas, false);
+
+	var viewport = document.getElementById("viewport");
 	this.context = viewport.getContext("2d");
 	this.canvas = new Canvas(this.context);
 
@@ -22,11 +58,13 @@ Game.initialise = function()
 	this.assets.block = document.getElementById("block");
 	this.assets.shell = document.getElementById("shell");
 
+	window.onEachFrame(this.run());
+
 	this.worldScreen = new WorldScreen(this);
 	this.menuScreen = new MainMenuScreen(this);
 };
 
-Game.update = function()
+Game.prototype.update = function()
 {
 	var blockWorldUpdate = this.menuScreen ? this.menuScreen.update(): false;
 
@@ -39,9 +77,9 @@ Game.update = function()
 	}
 };
 
-Game.draw = function()
+Game.prototype.draw = function()
 {
-	this.context.clearRect(0, 0, Game.context.canvas.width, Game.context.canvas.height);
+	this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
 
 	if(this.worldScreen)
 		this.worldScreen.draw();
@@ -49,7 +87,7 @@ Game.draw = function()
 		this.menuScreen.draw();
 };
 
-Game.newGame = function()
+Game.prototype.newGame = function()
 {
 	if(this.menuScreen)
 	{
@@ -66,7 +104,7 @@ Game.newGame = function()
 	this.worldScreen = new WorldScreen(this);
 };
 
-Game.onGameOver = function()
+Game.prototype.onGameOver = function()
 {
 	if(this.menuScreen)
 	{
@@ -78,73 +116,32 @@ Game.onGameOver = function()
 	this.menuScreen = new MainMenuScreen(this);
 };
 
-Game.fps = 60;
-
-Game.run = function()
+Game.prototype.run = function()
 {
-	var loops = 0, skipTicks = 1000 / Game.fps;
+	var loops = 0, skipTicks = 1000 / this.fps;
 	var maxFrameSkip = 10;
 	var nextGameTick = (new Date).getTime();
 
+	var scope = this;
 	return function()
 	{
 		loops = 0;
 		while((new Date).getTime() > nextGameTick && loops < maxFrameSkip)
 		{
-			Game.update();
+			scope.update();
 			nextGameTick += skipTicks;
 			++loops;
 		}
 
-		Game.draw();
+		scope.draw();
 	};
 };
 
-if(window.webkitRequestAnimationFrame)
-{
-	window.onEachFrame = function( cb )
-	{
-		var _cb = function()
-		{
-			cb();
-			webkitRequestAnimationFrame(_cb);
-		};
-		_cb();
-	};
-}
-else if(window.mozRequestAnimationFrame)
-{
-	window.onEachFrame = function( cb )
-	{
-		var _cb = function()
-		{
-			cb();
-			mozRequestAnimationFrame(_cb);
-		};
-		_cb();
-	};
-}
-else
-{
-	window.onEachFrame = function( cb )
-	{
-		setInterval(cb, 1000 / Game.fps);
-	};
-}
-
-function cancelDefaultEventBehaviour(event)
-{
-	var e = event ? event: window.event;
-	if(e.preventDefault) e.preventDefault();
-	e.returnValue = false;
-	return false;
-}
-
-Game.resizeCanvas =
+Game.prototype.resizeCanvas =
 	function()
 	{
 		var contentNode = document.getElementById("content");
-		var aspectRatio = Game.width / Game.height;
+		var aspectRatio = this.width / this.height;
 		var newWidth = window.innerWidth;
 		var newHeight = window.innerHeight;
 		var newAspectRatio = newWidth / newHeight;
@@ -161,24 +158,35 @@ Game.resizeCanvas =
 		viewport.width = newWidth;
 		viewport.height = newHeight;
 
-		Game.worldToCanvasRatio = newWidth / Game.width;
+		this.worldToCanvasRatio = newWidth / this.width;
 	};
 
-Game.worldToCanvas = function(position)
+Game.prototype.worldToCanvas = function(position)
 {
 	if(position instanceof Vec2)
-		return position.Muls(Game.worldToCanvasRatio);
+		return position.Muls(this.worldToCanvasRatio);
 	else
-		return position * Game.worldToCanvasRatio;
+		return position * this.worldToCanvasRatio;
 };
 
-Game.canvasToWorld = function(position)
+Game.prototype.canvasToWorld = function(position)
 {
 	if(position instanceof Vec2)
-		return position.Divs(Game.worldToCanvasRatio);
+		return position.Divs(this.worldToCanvasRatio);
 	else
-		return position / Game.worldToCanvasRatio;
+		return position / this.worldToCanvasRatio;
 };
 
-Game.initialise();
-window.onEachFrame(Game.run());
+function cancelDefaultEventBehaviour(event)
+{
+	var e = event ? event: window.event;
+	if(e.preventDefault) e.preventDefault();
+	e.returnValue = false;
+	return false;
+}
+
+var game = new Game();
+$(window).load(function()
+{
+	game.initialise();
+});

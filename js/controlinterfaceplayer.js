@@ -33,7 +33,7 @@ ControlInterfacePlayer.prototype.getMovementDirection =
 ControlInterfacePlayer.prototype.getTurretDirection =
 	function()
 	{
-		var worldSpaceCursor = Game.canvasToWorld(this.screen.game.mouse.position);
+		var worldSpaceCursor = this.screen.game.canvasToWorld(this.screen.game.mouse.position);
 		var direction = worldSpaceCursor.Subv(this.entity.position);
 
 		var rotation = Math.atan2(direction.y, direction.x);
