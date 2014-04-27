@@ -74,6 +74,8 @@ Game.prototype.update = function()
 
 		if(this.worldScreen.playerTeam.getNumAliveMembers() == 0)
 			this.onGameOver();
+		if(this.worldScreen.enemyTeam.getNumAliveMembers() == 0)
+			this.onLevelComplete();
 	}
 };
 
@@ -99,9 +101,22 @@ Game.prototype.newGame = function()
 		this.worldScreen.deactivate();
 		this.worldScreen = null;
 	}
+	$("#level-complete").toggleClass("on", false);
 	$("#game-over").toggleClass("on", false);
 
+	$("#level-title").toggleClass("on", true).delay(3000).queue(
+		function()
+		{
+			$(this).toggleClass("on", false);
+			$(this).dequeue();
+		});
+
 	this.worldScreen = new WorldScreen(this, levelData[0]);
+};
+
+Game.prototype.onLevelComplete = function()
+{
+	$("#level-complete").toggleClass("on", true);
 };
 
 Game.prototype.onGameOver = function()

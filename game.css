@@ -202,46 +202,43 @@ html, body, .game-container, .content-pane, .content-wrapper
 	height:100%;
 }
 
+.level-over, .level-title
+{
+    margin: auto;
+
+    position: absolute;
+    top: 12%;
+    left: 0;
+    right: 0;
+
+    text-align: center;
+
+    color: #176D3C;
+
+    font-family: Calibri, sans-serif;
+    font-size: 72px;
+    font-weight: lighter;
+    letter-spacing: 1px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #92b879;
+    text-transform: uppercase;
+
+    opacity: 0;
+
+    -webkit-transition:opacity 1.5s;
+    transition:opacity 1.5s;
+}
+
 .level-over
 {
-	margin:auto;
-	
-	position:absolute;
-	top:0;
-	left:0;
-	bottom:0;
-	right:0;
-	
-	width:500px;
-	height:100px;
-
-	text-align:center;
-	
-	color:#176D3C;
-	
-	font-family:Calibri, sans-serif;
-	font-size:72px;
-	font-weight:lighter;
-	letter-spacing:1px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #92b879;
-	text-transform:uppercase;
-	
-	opacity: 0;
-	
-	-webkit-transition:opacity 0s, -webkit-transform 0s;
-	transition:opacity 0s, transform 0s;
-	
-	-webkit-transform:rotateX(90deg);
-	transform:rotateX(90deg);
+	-webkit-transition:opacity 0s;
+	transition:opacity 0s;
 }
 
 .on
 {
 	opacity: 1;
-	-webkit-transform:rotateX(0deg);
-	transform:rotateX(0deg);
-	
-	-webkit-transition:opacity 1.5s, -webkit-transform 1.5s;
-	transition:opacity 0.5s, transform 0.5s;
+
+	-webkit-transition:opacity 1.5s;
+	transition:opacity 1.5s;
 }
