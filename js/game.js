@@ -60,7 +60,8 @@ Game.prototype.initialise = function()
 
 	window.onEachFrame(this.run());
 
-	this.worldScreen = new WorldScreen(this, levelData[0]);
+	this.currentLevel = 0;
+	this.worldScreen = new WorldScreen(this, levelData[this.currentLevel]);
 	this.menuScreen = new MainMenuScreen(this);
 };
 
@@ -72,10 +73,19 @@ Game.prototype.update = function()
 	{
 		this.worldScreen.update();
 
-		if(this.worldScreen.playerTeam.getNumAliveMembers() == 0)
-			this.onGameOver();
-		if(this.worldScreen.enemyTeam.getNumAliveMembers() == 0)
-			this.onLevelComplete();
+		if(!this.levelFinished)
+		{
+			if(this.worldScreen.playerTeam.getNumAliveMembers() == 0)
+			{
+				this.onGameOver();
+				this.levelFinished = true;
+			}
+			else if(this.worldScreen.enemyTeam.getNumAliveMembers() == 0)
+			{
+				this.onLevelComplete();
+				this.levelFinished = true;
+			}
+		}
 	}
 };
 
@@ -101,22 +111,21 @@ Game.prototype.newGame = function()
 		this.worldScreen.deactivate();
 		this.worldScreen = null;
 	}
-	$("#level-complete").toggleClass("on", false);
-	$("#game-over").toggleClass("on", false);
+	$("#level-complete").removeClass("on");
+	$("#game-over").removeClass("on");
 
-	$("#level-title").toggleClass("on", true).delay(3000).queue(
-		function()
-		{
-			$(this).toggleClass("on", false);
-			$(this).dequeue();
-		});
-
-	this.worldScreen = new WorldScreen(this, levelData[0]);
+	this.startLevel(0);
 };
 
 Game.prototype.onLevelComplete = function()
 {
-	$("#level-complete").toggleClass("on", true);
+	var scope = this;
+	$("#level-complete").addClass("on").delay(3000).queue(
+		function(next)
+		{
+			scope.startLevel((scope.currentLevel + 1) % levelData.length);
+			next();
+		});
 };
 
 Game.prototype.onGameOver = function()
@@ -127,8 +136,33 @@ Game.prototype.onGameOver = function()
 		this.menuScreen = null;
 	}
 
-	$("#game-over").toggleClass("on", true);
+	$("#game-over").addClass("on");
 	this.menuScreen = new MainMenuScreen(this);
+};
+
+Game.prototype.startLevel = function(levelNum)
+{
+	$("#level-complete").removeClass("on");
+
+	if(this.worldScreen)
+	{
+		this.worldScreen.deactivate();
+		this.worldScreen = null;
+	}
+
+	this.currentLevel = levelNum;
+
+	$("#level-num").text(this.currentLevel+1);
+
+	this.levelFinished = false;
+	this.worldScreen = new WorldScreen(this, levelData[this.currentLevel]);
+
+	$("#level-title").addClass("on").delay(3000).queue(
+		function(next)
+		{
+			$(this).removeClass("on");
+			next();
+		});
 };
 
 Game.prototype.run = function()
