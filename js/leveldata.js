@@ -39,3 +39,23 @@ levelData.push(new Level(new Vec2(4*64, 4*64),
 		{"type": "tank", "position": new Vec2(12*64, 4*64)}
 	]
 ));
+
+
+levelData.push(new Level(new Vec2(3*64, 2*64),
+	[
+		{"type": "block", "position": new Vec2(5.5*64, 1.5*64)},
+		{"type": "block", "position": new Vec2(5.5*64, 2.5*64)},
+		{"type": "block", "position": new Vec2(5.5*64, 3.5*64)},
+		{"type": "block", "position": new Vec2(5.5*64, 4.5*64)},
+		{"type": "block", "position": new Vec2(5.5*64, 5.5*64)},
+
+		{"type": "block", "position": new Vec2(10.5*64, 2.5*64)},
+		{"type": "block", "position": new Vec2(10.5*64, 3.5*64)},
+		{"type": "block", "position": new Vec2(10.5*64, 4.5*64)},
+		{"type": "block", "position": new Vec2(10.5*64, 5.5*64)},
+		{"type": "block", "position": new Vec2(10.5*64, 6.5*64)},
+
+		{"type": "tank", "position": new Vec2(8*64, 4*64)},
+		{"type": "tank", "position": new Vec2(13*64, 6*64)}
+	]
+));
