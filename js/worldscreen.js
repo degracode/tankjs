@@ -44,6 +44,8 @@ function WorldScreen(game, level)
 		case "tank":
 			this.addAITank(feature.position);
 			break;
+		case "destroyableblock":
+			this.addDestroyableBlock(feature.position)
 		default:
 			break;
 		}
@@ -109,6 +111,16 @@ WorldScreen.prototype.addAITank = function(position)
 WorldScreen.prototype.addBlock = function(position)
 {
 	this.addEntity(new Prop(this, position, this.game.assets.block));
+};
+
+WorldScreen.prototype.addDestroyableBlock = function(position)
+{
+	var block = new Prop(this, position, this.game.assets.destroyableblock);
+	block.size = new Vec2(32, 32);
+	block.destroyable = true;
+	block.updateBounds();
+
+	this.addEntity(block);
 };
 
 WorldScreen.prototype.rayTest = function(origin, direction, entityToIgnore)

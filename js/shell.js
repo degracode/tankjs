@@ -26,7 +26,7 @@ Shell.prototype.update =
 				var contact = this.bounds.testCollision(entity.bounds);
 				if(contact.hit)
 				{
-					if(entity instanceof Tank || entity instanceof Shell)
+					if(entity instanceof Tank || entity instanceof Shell || (entity instanceof Prop && entity.destroyable))
 					{
 						this.destroy();
 						entity.destroy();
@@ -65,10 +65,4 @@ Shell.prototype.update =
 				}
 			}
 		}
-	};
-
-Shell.prototype.destroy =
-	function()
-	{
-		this.screen.removeEntity(this.id);
 	};

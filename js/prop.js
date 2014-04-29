@@ -6,6 +6,7 @@ function Prop( screen, pos, image )
 
 	this.position = pos.Clone();
 	this.image = image;
+	this.destroyable = false;
 
 	this.updateBounds();
 }
@@ -26,4 +27,10 @@ Prop.prototype.updateBounds =
 	function()
 	{
 		this.bounds = new OBB(this.position, this.size, 0);
+	};
+
+Prop.prototype.destroy =
+	function()
+	{
+		this.screen.removeEntity(this.id);
 	};

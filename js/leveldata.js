@@ -3,22 +3,39 @@
  */
 var levelData = [];
 
-function Level(playerStartPos, width, height, features)
+function Level(playerStartPos, features)
 {
 	this.playerStartPos = playerStartPos;
-	this.width = width;
-	this.height = height;
 	this.features = features;
 }
 
-levelData.push(new Level(new Vec2(128, 128), 640, 512,
+levelData.push(new Level(new Vec2(128, 128),
 	[
-		{"type": "block", "position": new Vec2(416, 224)},
-		{"type": "block", "position": new Vec2(352, 224)},
-		{"type": "block", "position": new Vec2(288, 224)},
-		{"type": "block", "position": new Vec2(288, 288)},
-		{"type": "block", "position": new Vec2(288, 352)},
+		{"type": "block", "position": new Vec2(10*64+32, 3*64+32)},
+		{"type": "block", "position": new Vec2(10*64+32, 4*64+32)},
 
-		{"type": "tank", "position": new Vec2(400, 300)}
+		{"type": "tank", "position": new Vec2(12*64, 4*64)}
+	]
+));
+
+
+levelData.push(new Level(new Vec2(4*64, 4*64),
+	[
+		{"type": "block", "position": new Vec2(10.5*64, 1.5*64)},
+		{"type": "block", "position": new Vec2(10.5*64, 2.5*64)},
+
+		{"type": "destroyableblock", "position": new Vec2(10.25*64, 3.25*64)},
+		{"type": "destroyableblock", "position": new Vec2(10.25*64, 3.75*64)},
+		{"type": "destroyableblock", "position": new Vec2(10.25*64, 4.25*64)},
+		{"type": "destroyableblock", "position": new Vec2(10.25*64, 4.75*64)},
+		{"type": "destroyableblock", "position": new Vec2(10.75*64, 3.25*64)},
+		{"type": "destroyableblock", "position": new Vec2(10.75*64, 3.75*64)},
+		{"type": "destroyableblock", "position": new Vec2(10.75*64, 4.25*64)},
+		{"type": "destroyableblock", "position": new Vec2(10.75*64, 4.75*64)},
+
+		{"type": "block", "position": new Vec2(10.5*64, 5.5*64)},
+		{"type": "block", "position": new Vec2(10.5*64, 6.5*64)},
+
+		{"type": "tank", "position": new Vec2(12*64, 4*64)}
 	]
 ));

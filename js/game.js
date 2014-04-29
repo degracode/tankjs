@@ -2,7 +2,7 @@
 
 function Game()
 {
-	this.width = 640;
+	this.width = 1024;
 	this.height = 512;
 	this.fps = 60;
 };
@@ -56,6 +56,7 @@ Game.prototype.initialise = function()
 	this.assets.enemy_tank_body = document.getElementById("enemy_tank_body");
 	this.assets.tank_turret = document.getElementById("tank_turret");
 	this.assets.block = document.getElementById("block");
+	this.assets.destroyableblock = document.getElementById("destroyableblock");
 	this.assets.shell = document.getElementById("shell");
 
 	window.onEachFrame(this.run());
