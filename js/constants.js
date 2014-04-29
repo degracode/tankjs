@@ -6,6 +6,8 @@
 var constants = {};
 
 constants.tankSpeed = 0.8;
+constants.tankRotationSpeed = 0.1;
+constants.tankRotationAlignmentThreshold = 0.99;
 
 constants.shellSpeed = 2.5;
 constants.shellSize = 8;

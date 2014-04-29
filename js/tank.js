@@ -36,10 +36,17 @@ Tank.prototype.update =
 			movementDirection.normalise();
 
 			var targetRotation = Math.atan2(movementDirection.y, movementDirection.x);
-			this.rotation = Math.angleLerp(this.rotation, targetRotation, 0.2);
+			this.rotation = Math.angleLerpFixedSpeed(this.rotation, targetRotation, constants.tankRotationSpeed);
+
+			var forwardDirection = new Vec2(Math.cos(this.rotation), Math.sin(this.rotation));
+
+			var forwardDot = movementDirection.Dot(forwardDirection);
+			if(forwardDot > constants.tankRotationAlignmentThreshold)
+			{
+				this.position.addv(movementDirection.muls(constants.tankSpeed));
+			}
 		}
 
-		this.position.addv(movementDirection.muls(constants.tankSpeed));
 		this.updateBounds();
 
 		this.applyConstraints();
